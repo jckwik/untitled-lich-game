@@ -81,92 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./app.jsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/components/app.js");
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./app.jsx":
-/*!*****************!*\
-  !*** ./app.jsx ***!
-  \*****************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-//declare var require: any
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"); //export class Hello extends React.Component {
-//	render() {
-//		return (
-//			<h1>Welcome to React! =)</h1>
-//		);
-//	}
-//}
-//ReactDOM.render(<Hello />, document.getElementById('root'));
-
-
-function Button(props) {
-  var handleClick = function handleClick() {
-    return props.onClickFunction(props.increment);
-  };
-
-  return /*#__PURE__*/React.createElement("button", {
-    onClick: handleClick
-  }, "+", props.increment);
-}
-
-function Display(props) {
-  return /*#__PURE__*/React.createElement("div", null, props.message);
-}
-
-function App() {
-  var _React$useState = React.useState(0),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      counter = _React$useState2[0],
-      setCounter = _React$useState2[1];
-
-  var incrementCounter = function incrementCounter(incrementValue) {
-    return setCounter(counter + incrementValue);
-  };
-
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Button, {
-    onClickFunction: incrementCounter,
-    increment: 1
-  }), /*#__PURE__*/React.createElement(Button, {
-    onClickFunction: incrementCounter,
-    increment: 5
-  }), /*#__PURE__*/React.createElement(Button, {
-    onClickFunction: incrementCounter,
-    increment: 10
-  }), /*#__PURE__*/React.createElement(Button, {
-    onClickFunction: incrementCounter,
-    increment: 100
-  }), /*#__PURE__*/React.createElement(Display, {
-    message: counter
-  }));
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (App); //ReactDOM.render(
-//	<App />,
-//	document.getElementById('root'),
-//);
-
-/***/ }),
 
 /***/ "./node_modules/object-assign/index.js":
 /*!*********************************************!*\
@@ -28681,7 +28599,89 @@ if (false) {} else {
 }
 
 
+/***/ }),
+
+/***/ "./src/components/app.js":
+/*!*******************************!*\
+  !*** ./src/components/app.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//declare var require: any
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"); //export class Hello extends React.Component {
+//	render() {
+//		return (
+//			<h1>Welcome to React! =)</h1>
+//		);
+//	}
+//}
+//ReactDOM.render(<Hello />, document.getElementById('root'));
+
+
+function Button(props) {
+  var handleClick = function handleClick() {
+    return props.onClickFunction(props.increment);
+  };
+
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: handleClick
+  }, "+", props.increment);
+}
+
+function Display(props) {
+  return /*#__PURE__*/React.createElement("div", null, props.message);
+}
+
+function App() {
+  var _React$useState = React.useState(0),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      counter = _React$useState2[0],
+      setCounter = _React$useState2[1];
+
+  var incrementCounter = function incrementCounter(incrementValue) {
+    return setCounter(counter + incrementValue);
+  };
+
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Button, {
+    onClickFunction: incrementCounter,
+    increment: 1
+  }), /*#__PURE__*/React.createElement(Button, {
+    onClickFunction: incrementCounter,
+    increment: 5
+  }), /*#__PURE__*/React.createElement(Button, {
+    onClickFunction: incrementCounter,
+    increment: 10
+  }), /*#__PURE__*/React.createElement(Button, {
+    onClickFunction: incrementCounter,
+    increment: 100
+  }), /*#__PURE__*/React.createElement(Display, {
+    message: counter
+  }));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (App); //ReactDOM.render(
+//	<App />,
+//	document.getElementById('root'),
+//);
+
 /***/ })
 
 /******/ });
-//# sourceMappingURL=app-bundle.js.map
+//# sourceMappingURL=main.app-bundle.js.map

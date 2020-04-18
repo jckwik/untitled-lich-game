@@ -1,13 +1,14 @@
 {
-	"name": "Untitled Lich Game",
+	"name": "UntitledLichGame",
 	"version": "0.0.0",
 	"description": "A very lichy clicker",
-	"main": "server.js",
+	"main": "index.js",
 	"author": {
 		"name": "Sushi"
 	},
 	"dependencies": {
 		"@babel/core": "^7.9.0",
+		"@babel/node": "^7.8.7",
 		"@babel/preset-env": "^7.9.5",
 		"@babel/preset-react": "^7.9.4",
 		"babel-loader": "^8.1.0",
@@ -23,6 +24,7 @@
 		"webpack-dev-server": "^3.10.3"
 	},
 	"scripts": {
-		"start": "webpack-dev-server --mode development"
+		"dev-server": "nodemon --exec babel-node src/server/server.js --ignore dist/ --mode development",
+		"dev-bundle": "webpack -wd"
 	}
 }

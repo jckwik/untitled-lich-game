@@ -9,12 +9,13 @@
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <NodeExePath>C:\Program Files\nodejs\node.exe</NodeExePath>
-    <NodeExeArguments>"C:\Users\Erika\Documents\code\UntitledLichGame\UntitledLichGame\node_modules\nodemon\bin\nodemon.js" server.js</NodeExeArguments>
-    <ToolsVersionPromptShown>0.0</ToolsVersionPromptShown>
-    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+    <NodeExeArguments>"C:\Source\untitled-lich-game\UntitledLichGame\node_modules\nodemon\bin\nodemon.js" server.js</NodeExeArguments>
+    <ToolsVersionPromptShown>2.8</ToolsVersionPromptShown>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <DebuggerPort>4242</DebuggerPort>
     <ScriptArguments>
     </ScriptArguments>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -23,7 +24,7 @@
     <ProjectGuid>746939e8-0287-41ed-a4a6-33dd95a9fee3</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>server.js</StartupFile>
+    <StartupFile>src\server\server.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -40,21 +41,27 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app.jsx">
+    <Compile Include="src\components\app.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="babel.config.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="dist\app-bundle.js" />
-    <Compile Include="server.js" />
+    <Compile Include="src\components\Button.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Display.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\server\server.js" />
     <Compile Include="webpack.config.js">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="dist\app-bundle.js.map" />
-    <Content Include="index.html">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="jsconfig.json">
@@ -63,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\" />
+    <Folder Include="src\server\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

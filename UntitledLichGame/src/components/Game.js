@@ -2,7 +2,7 @@
 import Button from './Button';
 import Display from './Display';
 
-export default function App() {
+export default function Game() {
 	const [counter, setCounter] = React.useState(0);
 	const incrementCounter = (incrementValue) => setCounter(counter + incrementValue);
 	return (

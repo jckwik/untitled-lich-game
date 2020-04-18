@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './components/App';
+import Game from './components/Game';
 
 ReactDOM.hydrate(
-    <App />,
-    document.getElementById('mountNode'),
+    <Game />,
+    document.getElementById('gameFrame'),
 );

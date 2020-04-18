@@ -41,7 +41,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src\components\app.js">
+    <Compile Include="src\components\Game.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="babel.config.js">

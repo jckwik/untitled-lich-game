@@ -4,3 +4,7 @@
 .progress-bar{
     transition:none;
 }
+
+.jumbotron {
+    padding: 1rem;
+}

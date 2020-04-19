@@ -1,7 +1,12 @@
 ﻿import React, { Component } from 'react';
 import ResourceDisplayGroup from './ResourceDisplayGroup';
 import BuildingDisplayGroup from './BuildingDisplayGroup';
+import GameActionGroup from './GameActionGroup';
+import TechnologyActionGroup from './TechnologyActionGroup';
 import { setInterval } from 'timers';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class Resource {
     constructor(quantity) {
@@ -21,14 +26,15 @@ class Building {
 
 // Instantiate all resources and buildings here
 const resources = {
-    "Worker": new Resource(1),
+    "Worker": new Resource(2),
     "Worker Power": new Resource(1),
     "Bone": new Resource(1),
     "Wood": new Resource(0)
 };
 
 const buildings = {
-    "Graveyard": new Building(1, 1, 100, function () { AddResource(resources.Bone, 1 * this.quantity); }, 0)
+    "Graveyard": new Building(1, 1, 100, function () { AddResource(resources.Bone, 1 * this.quantity); }, 0),
+    "Lumberyard": new Building(1, 1, 1000, function () { AddResource(resources.Wood, 1 * this.quantity); }, 0)
 };
 
 function AddResource(resource, amount) {
@@ -55,10 +61,24 @@ class Game extends Component {
     }
     render() {
         return (
-            <div>
-                <ResourceDisplayGroup resources={resources} />
-                <BuildingDisplayGroup buildings={buildings} />
-            </div>
+            <Container fluid="true">
+                <Row>
+                    <Col>
+                        <ResourceDisplayGroup resources={resources} />
+                    </Col>
+                    <Col>
+                        <GameActionGroup />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <BuildingDisplayGroup buildings={buildings} />
+                    </Col>
+                    <Col>
+                        <TechnologyActionGroup />
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

@@ -1,13 +1,13 @@
 import express from 'express';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import ReactDOM from 'react-dom';
 import Game from '../components/Game';
 
 const server = express();
 server.use(express.static('dist'));
 
 server.get('/', (req, res) => {
-    const initialMarkup = ReactDOMServer.renderToString(<Game />);
+    const initialMarkup = "";
 
     res.send(`
     <html>

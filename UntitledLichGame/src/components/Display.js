@@ -2,6 +2,6 @@
 
 export default function Display(props) {
     return (
-        <div key="{props.resource}">{props.resource}: {props.quantity}</div>
+        <div>{props.resource}: {props.quantity}</div>
     );
 }

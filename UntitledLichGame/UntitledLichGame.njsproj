@@ -41,6 +41,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\components\BuildingDisplayGroup.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\Game.js">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\Display.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\ResourceDisplayGroup.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\index.js">

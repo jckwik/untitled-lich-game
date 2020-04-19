@@ -41,6 +41,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\components\BuildingDisplay.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\BuildingDisplayGroup.js">
       <SubType>Code</SubType>
     </Compile>
@@ -54,7 +57,10 @@
     <Compile Include="src\components\Button.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\components\Display.js">
+    <Compile Include="src\components\GameAlert.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\ResourceDisplay.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\ResourceDisplayGroup.js">
@@ -73,11 +79,15 @@
     <Content Include="jsconfig.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\style\game.css">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
+    <Folder Include="src\style\" />
     <Folder Include="src\server\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

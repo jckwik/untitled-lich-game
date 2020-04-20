@@ -1,21 +1,21 @@
 import express from 'express';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import App from '../components/App';
+import ReactDOM from 'react-dom';
+import Game from '../components/Game';
 
 const server = express();
 server.use(express.static('dist'));
 
 server.get('/', (req, res) => {
-    const initialMarkup = ReactDOMServer.renderToString(<App />);
+    const initialMarkup = "";
 
     res.send(`
     <html>
       <head>
-        <title>Sample React App</title>
+        <title>Untitled Lich Clicker</title>
       </head>
       <body>
-        <div id="mountNode">${initialMarkup}</div>
+        <div id="gameFrame">${initialMarkup}</div>
         <script src="/main.js"></script>
       </body>
     </html>

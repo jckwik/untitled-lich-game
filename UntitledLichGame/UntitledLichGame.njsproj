@@ -57,6 +57,9 @@
     <Compile Include="src\components\Button.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\components\GameActionGroup.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\GameAlert.js">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +67,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\ResourceDisplayGroup.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\TechnologyActionGroup.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\index.js">

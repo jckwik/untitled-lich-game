@@ -37,6 +37,11 @@ const buildings = {
     "Lumberyard": new Building(1, 1, 1000, function () { AddResource(resources.Wood, 1 * this.quantity); }, 0)
 };
 
+const gameState = {
+    newGame: true,
+    unlockTechnology: false
+};
+
 function AddResource(resource, amount) {
     resource.quantity += amount;
 }
@@ -62,22 +67,34 @@ class Game extends Component {
     render() {
         return (
             <Container fluid="true">
+                {gameState.newGame &&
+                    <Row>
+                        <Col>You find yourself in a graveyard.</Col>
+                    </Row>
+                }
                 <Row>
+                    {!gameState.newGame &&
+                        <Col>
+                            <ResourceDisplayGroup resources={resources} />
+                        </Col>
+                    }
                     <Col>
-                        <ResourceDisplayGroup resources={resources} />
-                    </Col>
-                    <Col>
-                        <GameActionGroup />
+                        <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} />
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <BuildingDisplayGroup buildings={buildings} />
-                    </Col>
-                    <Col>
-                        <TechnologyActionGroup />
-                    </Col>
-                </Row>
+                {!gameState.newGame &&
+                    <Row>
+                        <Col>
+                            <BuildingDisplayGroup buildings={buildings} />
+
+                        </Col>
+                        {gameState.unlockTechnology &&
+                            <Col>
+                                <TechnologyActionGroup />
+                            </Col>
+                        }
+                    </Row>
+                }
             </Container>
         );
     }

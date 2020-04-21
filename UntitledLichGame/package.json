@@ -4,7 +4,7 @@
 	"description": "A very lichy clicker",
 	"main": "index.js",
 	"author": {
-		"name": "Sushi"
+		"name": "Jckwik & Sushi"
 	},
 	"dependencies": {
 		"@babel/core": "^7.9.0",

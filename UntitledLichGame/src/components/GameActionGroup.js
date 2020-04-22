@@ -1,6 +1,9 @@
 ﻿var React = require('react');
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
 import Resource from './Resource';
 import * as Constants from '../constants/Constants';
 
@@ -28,28 +31,54 @@ function actionCreateResource(cost, result, props) {
 	}
 }
 
-export default function GameActionGroup(props) {
-	var output = [];
+function skeletonCraftActionButton(props) {
+	var output;
+	var button;
 
-	//can always work graveyard
-	output.push(<Button onClick={() => actionWorkBuilding(props.buildings["Graveyard"], Constants.CLICK_GRAVEYARD_BUTTON, props.gameState)}>Search Graveyard</Button>);
-
-	if (props.gameState.unlockCraftSkeleton) {
-		//disable button if not enough resources... maybe put this in game instead?
-		if (props.resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE) {
-			output.push(
-				<Button onClick={() => actionCreateResource([new Resource(Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE, "Bone")], [new Resource(1, "Worker")], props)}>Build Skeleton</Button>
-			)
-		}
-		else {
-			output.push(
-				<Button disabled onClick={() => actionCreateResource([new Resource(Constants.CRAFT_BONE_TO_WORKER_OUTPUT_WORKER, "Bone")], [new Resource(1, "Worker")], props)}>Build Skeleton</Button>
-			)
-		}
-		
+	//disable button if not enough resources
+	if (props.resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE) {
+		button = (
+			<Button key="unlockSkeleton" onClick={() => actionCreateResource([new Resource(Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE, "Bone")], [new Resource(1, "Worker")], props)}>Build Skeleton</Button>
+		)
+	}
+	else {
+		button = (
+			<Button key="unlockSkeleton" disabled onClick={() => actionCreateResource([new Resource(Constants.CRAFT_BONE_TO_WORKER_OUTPUT_WORKER, "Bone")], [new Resource(1, "Worker")], props)}>Build Skeleton</Button>
+		)
 	}
 
+	output = (
+		<OverlayTrigger
+			overlay={<Tooltip id="bone-to-worker">Bone: 10</Tooltip>}
+			placement="bottom"
+			shouldUpdatePosition={true}
+		>
+			{button}
+		</OverlayTrigger>
+	);
+
+	return output;
+}
+
+export default function GameActionGroup(props) {
+	var buttons = [];
+
+	//can always work graveyard
+	buttons.push(<Button onClick={() => actionWorkBuilding(props.buildings["Graveyard"], Constants.CLICK_GRAVEYARD_BUTTON, props.gameState)}>Search Graveyard</Button>);
+
+	if (props.gameState.unlockCraftSkeleton) {
+		buttons.push(skeletonCraftActionButton(props));
+	}
+
+	//var x = 0;
+	//buttons.forEach(button => {
+	//	output.push(<Row>)
+
+	//	x++;
+	//	</Row>	
+	//	});
+	
 	return (<Jumbotron><h1>Actions</h1>
-		{output}
+		{buttons}
 	</Jumbotron>);
 }

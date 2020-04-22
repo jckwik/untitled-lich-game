@@ -47,6 +47,9 @@
     <Compile Include="src\components\BuildingDisplayGroup.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\constants\Constants.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\Game.js">
       <SubType>Code</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\GameAlert.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\Resource.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\ResourceDisplay.js">
@@ -93,6 +99,7 @@
     <Folder Include="dist\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
+    <Folder Include="src\constants\" />
     <Folder Include="src\style\" />
     <Folder Include="src\server\" />
   </ItemGroup>

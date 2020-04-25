@@ -8,7 +8,8 @@ export default function BuildingDisplayGroup(props) {
     for (const [buildingKey, buildingObject] of Object.entries(props.buildings)) {
 		//console.log(buildingKey, buildingObject.quantity);
 		if (buildingObject.quantity > 0)
-			output.push(<BuildingDisplay key={buildingKey} resource={buildingKey} quantity={buildingObject.quantity} progress={buildingObject.currentPower} goal={buildingObject.powerRequired} />);
+			//output.push(<BuildingDisplay key={buildingKey} resource={buildingKey} quantity={buildingObject.quantity} progress={buildingObject.currentPower} goal={buildingObject.powerRequired} workers={buildingObject.workersAssigned}/>);
+			output.push(<BuildingDisplay key={buildingKey} building={buildingObject} buildingName={buildingKey} />);
     }
     return (<Jumbotron><h1>Buildings</h1>
         <ListGroup>

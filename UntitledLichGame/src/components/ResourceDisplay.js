@@ -1,8 +1,8 @@
 ﻿var React = require('react');
 import ListGroup from 'react-bootstrap/ListGroup';
 
-export default function ResourceDisplay(props) {
+export default function ResourceDisplay({ resource, quantity }) {
     return (
-        <ListGroup.Item>{props.resource}: {props.quantity}</ListGroup.Item>
+        <ListGroup.Item>{resource}: {quantity}</ListGroup.Item>
     );
 }

@@ -62,7 +62,7 @@ export default function GameActionGroup(props) {
 	var buttons = [];
 
 	//can always work graveyard
-	buttons.push(<Button onClick={() => actionWorkBuilding(props.buildings["Graveyard"], Constants.CLICK_GRAVEYARD_BUTTON, props.gameState)}>Search Graveyard</Button>);
+	buttons.push(<Button key="createBone" onClick={() => actionWorkBuilding(props.buildings["Graveyard"], Constants.CLICK_GRAVEYARD_BUTTON, props.gameState)}>Search Graveyard</Button>);
 
 	if (props.gameState.unlockCraftSkeleton) {
 		buttons.push(skeletonCraftActionButton(props));

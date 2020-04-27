@@ -6,7 +6,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 export default function ResourceDisplayGroup(props) {
     var output = [];
     for (const [resourceKey, resource] of Object.entries(props.resources)) {
-        if (resource.quantity > 0)
+        if (resource.quantity > 0 && resource.shouldDisplay)
             output.push(<ResourceDisplay key={resourceKey} resource={resourceKey} quantity={resource.quantity} />);
     }
     return (<Jumbotron><h1>Resources</h1>

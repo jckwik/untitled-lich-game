@@ -26,6 +26,7 @@ class Building {
 const resources = {
     "Worker": new Resource(0),
     "Worker Power": new Resource(0),
+    "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false),
     "Bone": new Resource(0),
     "Wood": new Resource(0)
 };
@@ -40,7 +41,7 @@ const gameState = {
 	unlockTechnology: false,
 	unlockCraftSkeleton: false,
 	unlockAssignWorkers: false,
-	unlockManaBar: false,//might be redudnant with the one above
+	unlockManaBar: false //might be redudnant with the one above
 };
 
 function AddResource(resource, amount) {
@@ -48,6 +49,7 @@ function AddResource(resource, amount) {
 }
 
 function gameLoop() {
+    
 	//gameState checks
 	if (gameState.newGame && resources["Bone"].quantity >= 1) {
 		gameState.newGame = false;
@@ -105,12 +107,12 @@ class Game extends Component {
                 {!gameState.newGame &&
                     <Row>
                         <Col>
-                            <BuildingDisplayGroup buildings={buildings} />
+                        <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} />
 
                         </Col>
                         {gameState.unlockTechnology &&
                             <Col>
-                                <TechnologyActionGroup />
+                        <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} />
                             </Col>
                         }
                     </Row>

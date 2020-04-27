@@ -22,11 +22,9 @@ function actionWorkBuilding(building, amount, gameState) {
 function actionCreateResource(cost, result, props) {
 	//cost and result are formatted as an array of Resources
 	for (const [costKey, costObject] of Object.entries(cost)) {
-		console.log(costObject.name);
 		props.resources[costObject.name].quantity -= costObject.quantity;
 	}
 	for (const [resultKey, resultObject] of Object.entries(result)) {
-		console.log(resultObject.name);
 		props.resources[resultObject.name].quantity += resultObject.quantity;
 	}
 }

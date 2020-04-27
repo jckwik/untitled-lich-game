@@ -39,6 +39,8 @@ const gameState = {
     newGame: true,
 	unlockTechnology: false,
 	unlockCraftSkeleton: false,
+	unlockAssignWorkers: false,
+	unlockManaBar: false,//might be redudnant with the one above
 };
 
 function AddResource(resource, amount) {
@@ -52,6 +54,11 @@ function gameLoop() {
 	}
 	if (!gameState.unlockCraftSkeleton && resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE) {
 		gameState.unlockCraftSkeleton = true;
+	}
+	if (!gameState.unlockAssignWorkers && resources["Worker"].quantity > 0) {
+		gameState.unlockAssignWorkers = true;
+		resources["Worker Power"].quantity = Constants.DEFAULT_WORKER_POWER;
+		console.log(resources["Worker Power"].quantity);
 	}
 
 	//building calcs

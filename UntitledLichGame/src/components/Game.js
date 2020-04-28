@@ -5,22 +5,13 @@ import BuildingDisplayGroup from './BuildingDisplayGroup';
 import GameActionGroup from './GameActionGroup';
 import TechnologyActionGroup from './TechnologyActionGroup';
 import Resource from './Resource';
+import Building from './Building';
 import * as Constants from '../constants/Constants';
 
 import { setInterval } from 'timers';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-class Building {
-    constructor(quantity, workersAssigned, powerRequired, effect, currentPower = 0) {
-        this.quantity = quantity; //number of this building
-        this.workersAssigned = workersAssigned; //number of workers assigned
-        this.powerRequired = powerRequired; //progress bar max value
-        this.effect = effect; //effect once bar is filled
-        this.currentPower = currentPower; //progress bar current value
-    }
-}
 
 // Instantiate all resources and buildings here
 const resources = {
@@ -48,13 +39,21 @@ const gameStats = {
     "Total Resource Clicks": 0
 };
 
+export function RoundToX(num, X) {
+    return +(Math.round(num + "e+" + X) + "e-" + X);
+}
+
+export function GetPrice(basePrice, multiplier, currentlyOwned) {
+    return RoundToX(basePrice * Math.pow(multiplier, currentlyOwned), 2);
+}
+
 function gameLoop() {
     
 	//gameState checks
 	//if (gameState.newGame && resources["Bone"].quantity >= 1) {
 	//	gameState.newGame = false;
 	//}
-	if (!gameState.unlockCraftSkeleton && resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE) {
+	if (!gameState.unlockCraftSkeleton && resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE) {
 		gameState.unlockCraftSkeleton = true;
 	}
 	if (!gameState.unlockAssignWorkers && resources["Worker"].quantity > 0) {

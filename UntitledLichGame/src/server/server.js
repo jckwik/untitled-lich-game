@@ -19,7 +19,7 @@ server.get('/', (req, res) => {
         <script src="/main.js"></script>
       </body>
     </html>
-  `)
+  `);
 });
 
 server.listen(4242, () => console.log('Server is running...'));

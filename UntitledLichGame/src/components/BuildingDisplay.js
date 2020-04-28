@@ -1,6 +1,6 @@
 ﻿var React = require('react');
 import ListGroup from 'react-bootstrap/ListGroup';
-import ProgressBar from 'react-bootstrap/ProgressBar';
+import BuildingDisplayProgressBar from './BuildingDisplayProgressBar';
 import Button from 'react-bootstrap/Button';
 
 function workersAssignedWillNotBeNegative(currentWorkers, workersToAssign) {
@@ -24,13 +24,18 @@ function incrementWorker(workersToAssign, buildingObject, workerObject, currentl
     }
 }
 
-export default function BuildingDisplay(props) {
+export default function BuildingDisplay({ building, buildingName, resources, gameState }) {
     return (
-        <ListGroup.Item><div>{props.buildingName}: {props.building.quantity}</div>
-            <ProgressBar now={props.building.currentPower} max={props.building.powerRequired} />
-            <Button onClick={() => incrementWorker(-1, props.building, props.resources.Worker, props.resources["Currently Assigned Workers"])}>-</Button>
-            {props.building.workersAssigned}
-            <Button onClick={() => incrementWorker(+1, props.building, props.resources.Worker, props.resources["Currently Assigned Workers"])}>+</Button>
+        <ListGroup.Item><div>{buildingName}: {building.quantity}</div>
+            <BuildingDisplayProgressBar
+                currentPower={building.currentPower}
+                maxPower={building.powerRequired}
+                currentWorkers={building.workersAssigned}
+                workerPower={resources["Worker Power"].amount}
+            />
+            <Button onClick={() => incrementWorker(-1, building, resources.Worker, resources["Currently Assigned Workers"])}>-</Button>
+            {building.workersAssigned}
+            <Button onClick={() => incrementWorker(+1, building, resources.Worker, resources["Currently Assigned Workers"])}>+</Button>
         </ListGroup.Item>
     );
 }

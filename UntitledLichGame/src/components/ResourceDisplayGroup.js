@@ -2,6 +2,7 @@
 import ResourceDisplay from './ResourceDisplay';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Jumbotron from 'react-bootstrap/Jumbotron';
+import RoundToX from './Game';
 
 export default function ResourceDisplayGroup({ resources, buildings, gameState, gameStats }) {
     var output = [];

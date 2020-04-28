@@ -41,10 +41,16 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\components\Building.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\BuildingDisplay.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\BuildingDisplayGroup.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\BuildingDisplayProgressBar.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\constants\Constants.js">

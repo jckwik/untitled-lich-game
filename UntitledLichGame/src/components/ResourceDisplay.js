@@ -1,8 +1,9 @@
 ﻿var React = require('react');
 import ListGroup from 'react-bootstrap/ListGroup';
+import { RoundToX } from './Game';
 
 export default function ResourceDisplay({ resource, quantity }) {
     return (
-        <ListGroup.Item>{resource}: {quantity}</ListGroup.Item>
+        <ListGroup.Item>{resource}: {RoundToX(quantity, 2)}</ListGroup.Item>
     );
 }

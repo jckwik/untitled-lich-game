@@ -6,6 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 import Resource from './Resource';
 import * as Constants from '../constants/Constants';
+import { GetPrice } from './Game';
 
 function actionWorkBuilding(building, amount, gameState) {
     building.currentPower += amount;
@@ -28,11 +29,13 @@ function skeletonCraftActionButton(resources) {
     var output;
     var button;
 
+    var priceBone = GetPrice(Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE, Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_MULTIPLIER, resources["Worker"].amount);
+
     //disable button if not enough resources
-    if (resources["Bone"].amount >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE) {
+    if (resources["Bone"].amount >= priceBone) {
         button = (
             <Button key="unlockSkeleton"
-                onClick={() => actionCreateResource([new Resource(Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE, "Bone")], [new Resource(1, "Worker")], resources)}
+                onClick={() => actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources)}
             >
                 Build Skeleton
             </Button>
@@ -42,7 +45,7 @@ function skeletonCraftActionButton(resources) {
         button = (
             <Button key="unlockSkeleton"
                 disabled
-                onClick={() => actionCreateResource([new Resource(Constants.CRAFT_BONE_TO_WORKER_OUTPUT_WORKER, "Bone")], [new Resource(1, "Worker")], resources)}
+                onClick={() => actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources)}
             >
                 Build Skeleton
             </Button>
@@ -51,7 +54,7 @@ function skeletonCraftActionButton(resources) {
 
     output = (
         <OverlayTrigger
-            overlay={<Tooltip id="bone-to-worker">Bone: {Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE}</Tooltip>}
+            overlay={<Tooltip id="bone-to-worker">Bone: {priceBone}</Tooltip>}
             placement="bottom"
             shouldUpdatePosition
             key="bone-to-worker"

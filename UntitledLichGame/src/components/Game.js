@@ -23,16 +23,16 @@ const resources = {
 };
 
 const buildings = {
-    "Graveyard": new Building(1, 0, 100, function () { resources.Bone.add = (1 * this.quantity); }, 0),
-    "Lumberyard": new Building(0, 0, 1000, function () { resources.Wood.add = (1 * this.quantity); }, 0)
+    "Graveyard": new Building(1, 0, 100, function () { resources.Bone.add = (1 * this.quantity * this.effectMultiplier); }, 0),
+    "Lumberyard": new Building(0, 0, 1000, function () { resources.Wood.add = (1 * this.quantity * this.effectMultiplier); }, 0)
 };
 
 const gameState = {
     newGame: false,
-	unlockTechnology: false,
-	unlockCraftSkeleton: false,
-	unlockAssignWorkers: false,
-	unlockManaBar: false //might be redudnant with the one above
+    unlockTechnology: false,
+    unlockCraftSkeleton: false,
+    unlockAssignWorkers: false,
+    unlockManaBar: false //might be redudnant with the one above
 };
 
 const gameStats = {
@@ -48,26 +48,22 @@ export function GetPrice(basePrice, multiplier, currentlyOwned) {
 }
 
 function gameLoop() {
-    
-	//gameState checks
-	//if (gameState.newGame && resources["Bone"].quantity >= 1) {
-	//	gameState.newGame = false;
-	//}
-	if (!gameState.unlockCraftSkeleton && resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE) {
-		gameState.unlockCraftSkeleton = true;
-	}
-	if (!gameState.unlockAssignWorkers && resources["Worker"].quantity > 0) {
-		gameState.unlockAssignWorkers = true;
-		resources["Worker Power"].SetIntialQuantity(Constants.DEFAULT_WORKER_POWER);
-	}
 
-	//building calcs
+    //gameState checks
+    //if (gameState.newGame && resources["Bone"].quantity >= 1) {
+    //	gameState.newGame = false;
+    //}
+    if (!gameState.unlockCraftSkeleton && resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE) {
+        gameState.unlockCraftSkeleton = true;
+    }
+    if (!gameState.unlockAssignWorkers && resources["Worker"].quantity > 0) {
+        gameState.unlockAssignWorkers = true;
+        resources["Worker Power"].SetIntialQuantity(Constants.DEFAULT_WORKER_POWER);
+    }
+
+    //building calcs
     for (const [buildingKey, buildingObject] of Object.entries(buildings)) {
-        buildingObject.currentPower += (buildingObject.workersAssigned * resources["Worker Power"].amount);
-        if (buildingObject.currentPower >= buildingObject.powerRequired) {
-            buildingObject.effect();
-			buildingObject.currentPower = 0;
-        }
+        buildingObject.Tick(resources["Worker Power"].amount);
     }
 }
 
@@ -77,40 +73,48 @@ class Game extends Component {
         this.state = { time: Date.now() };
     }
     componentDidMount() {
-        this.interval = setInterval(() => { this.setState({ time: Date.now() }); gameLoop(); }, 20);
+        this.interval = setInterval(() => {
+            this.setState({
+                time: Date.now(),
+                resources: resources,
+                buildings: buildings,
+                gameState: gameState
+            });
+            gameLoop();
+        }, 20);
     }
     render() {
         return (
             <Container fluid="true">
                 {gameState.newGame &&
-					<Row>
-						<Col className="text-center">You find yourself in a graveyard.</Col>
-						<Col className="text-center">
-                        <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
-						</Col>
-					</Row>
+                    <Row>
+                        <Col className="text-center">You find yourself in a graveyard.</Col>
+                        <Col className="text-center">
+                            <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                        </Col>
+                    </Row>
                 }
-				{!gameState.newGame &&
-					<Row>
+                {!gameState.newGame &&
+                    <Row>
 
-						<Col>
-							<ResourceDisplayGroup resources={resources} />
-						</Col>
-						<Col>
-                        <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats}/>
-						</Col>
+                        <Col>
+                            <ResourceDisplayGroup resources={resources} />
+                        </Col>
+                        <Col>
+                            <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                        </Col>
 
-					</Row>
-				}
+                    </Row>
+                }
                 {!gameState.newGame &&
                     <Row>
                         <Col>
-                        <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                            <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
 
                         </Col>
                         {gameState.unlockTechnology &&
                             <Col>
-                        <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
                             </Col>
                         }
                     </Row>

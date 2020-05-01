@@ -16,7 +16,9 @@
     }
     //resource.remove = amountToRemove
     set remove(amountToRemove) {
+        if (amountToRemove > this.quantity) return false;
         this.quantity -= amountToRemove;
+        return true;
     }
     SetIntialQuantity(quantityToSet) {
         if (this.quantity === 0) {

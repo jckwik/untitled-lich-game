@@ -35,6 +35,12 @@ const buildings = {
         1000,
         function () { resources.Gold.add = 1 * this.quantity * this.effectMultiplier; },
         [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]],
+        0),
+    "Mines": new Building(0,
+        0,
+        10000,
+        function () { resources.Gold.add = 10 * this.quantity * this.effectMultiplier; },
+        [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]],
         0)
 };
 

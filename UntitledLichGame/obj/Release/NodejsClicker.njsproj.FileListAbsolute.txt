@@ -1,2 +1,0 @@
-C:\Users\Erika\Documents\code\NodejsClicker\NodejsClicker\obj\Release\NodejsClicker.njsproj.CoreCompileInputs.cache
-C:\Users\Erika\Documents\code\NodejsClicker\NodejsClicker\bin\Microsoft.NodejsTools.WebRole.dll

@@ -15,20 +15,32 @@ import Col from 'react-bootstrap/Col';
 
 // Instantiate all resources and buildings here
 const resources = {
-    "Worker": new Resource(0, "Worker"),
-    "Worker Power": new Resource(0, "Worker Power"),
+    "Worker": new Resource(0, "Worker", false),
+    "Worker Power": new Resource(0, "Worker Power", false),
     "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false),
     "Bone": new Resource(10, "Bone"),
-    "Wood": new Resource(0, "Wood")
+    "Gold": new Resource(0, "Gold"),
+    "Mana": new Resource(100, "Mana", false)
 };
 
 const buildings = {
-    "Graveyard": new Building(1, 0, 100, function () { resources.Bone.add = (1 * this.quantity * this.effectMultiplier); }, 0),
-    "Lumberyard": new Building(0, 0, 1000, function () { resources.Wood.add = (1 * this.quantity * this.effectMultiplier); }, 0)
+    "Graveyard": new Building(1,
+        0,
+        100,
+        function () { resources.Bone.add = 1 * this.quantity * this.effectMultiplier; },
+        [[resources.Bone, Constants.BUILD_CREATE_GRAVEYARD_BONE_BASE, Constants.BUILD_CREATE_GRAVEYARD_BONE_MULTIPLIER]],
+        0),
+    "Lumberyard": new Building(0,
+        0,
+        1000,
+        function () { resources.Gold.add = 1 * this.quantity * this.effectMultiplier; },
+        [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]],
+        0)
 };
 
 const gameState = {
     newGame: false,
+    unlockLumberyard: false,
     unlockTechnology: false,
     unlockCraftSkeleton: false,
     unlockAssignWorkers: false,
@@ -39,12 +51,16 @@ const gameStats = {
     "Total Resource Clicks": 0
 };
 
+const achievements = {
+    "First Worker": false
+};
+
 export function RoundToX(num, X) {
     return +(Math.round(num + "e+" + X) + "e-" + X);
 }
 
 export function GetPrice(basePrice, multiplier, currentlyOwned) {
-    return RoundToX(basePrice * Math.pow(multiplier, currentlyOwned), 2);
+    return RoundToX(basePrice * Math.pow(multiplier, currentlyOwned), 0);
 }
 
 function gameLoop() {
@@ -98,7 +114,7 @@ class Game extends Component {
                     <Row>
 
                         <Col>
-                            <ResourceDisplayGroup resources={resources} />
+                            <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
                         </Col>
                         <Col>
                             <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />

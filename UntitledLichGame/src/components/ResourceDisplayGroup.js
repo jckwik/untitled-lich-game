@@ -2,10 +2,11 @@
 import ResourceDisplay from './ResourceDisplay';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Jumbotron from 'react-bootstrap/Jumbotron';
-import RoundToX from './Game';
+import ManaDisplay from './ManaDisplay';
 
 export default function ResourceDisplayGroup({ resources, buildings, gameState, gameStats }) {
     var output = [];
+    if (gameState.newGame === false) output.push(<ManaDisplay resources={resources} />);
     for (const [resourceKey, resource] of Object.entries(resources)) {
         if (resource.amount > 0 && resource.shouldDisplay) {
             output.push(<ResourceDisplay key={resourceKey} resource={resourceKey} quantity={resource.amount} />);

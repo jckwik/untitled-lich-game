@@ -31,8 +31,10 @@ function skeletonCraftActionButton(resources) {
 
     var priceBone = GetPrice(Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE, Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_MULTIPLIER, resources["Worker"].amount);
 
+    var canCraftWorker = (resources["Bone"].amount >= priceBone) && (resources.Worker.amount < resources.Mana.amount);
+
     //disable button if not enough resources
-    if (resources["Bone"].amount >= priceBone) {
+    if (canCraftWorker) {
         button = (
             <Button key="unlockSkeleton"
                 onClick={() => actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources)}

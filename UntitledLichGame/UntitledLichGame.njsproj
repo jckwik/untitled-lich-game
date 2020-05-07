@@ -44,6 +44,9 @@
     <Compile Include="src\components\Building.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\components\BuildingBuildButton.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\BuildingDisplay.js">
       <SubType>Code</SubType>
     </Compile>
@@ -51,6 +54,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\components\BuildingDisplayProgressBar.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\components\ManaDisplay.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\constants\Constants.js">

@@ -2,6 +2,7 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 import BuildingDisplayProgressBar from './BuildingDisplayProgressBar';
 import Button from 'react-bootstrap/Button';
+import BuildingBuildButton from './BuildingBuildButton';
 
 function workersAssignedWillNotBeNegative(currentWorkers, workersToAssign) {
     if (currentWorkers + workersToAssign >= 0) return true;
@@ -27,6 +28,7 @@ function incrementWorker(workersToAssign, buildingObject, workerObject, currentl
 export default function BuildingDisplay({ building, buildingName, resources, gameState }) {
     return (
         <ListGroup.Item><div>{buildingName}: {building.quantity}</div>
+            <BuildingBuildButton building={building} buildingName={buildingName} />
             <BuildingDisplayProgressBar
                 currentPower={building.currentPower}
                 maxPower={building.powerRequired}

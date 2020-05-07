@@ -14,6 +14,7 @@ export default class Building {
         this.currentPrice = clone(basePrice);
         this.UpdatePrice();
         this.canBuild = false;
+        this.forceVisible = false;
     }
     Tick(workerPower) {
         this.currentPower += this.workersAssigned * workerPower;

@@ -6,7 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 import Resource from './Resource';
 import * as Constants from '../constants/Constants';
-import { GetPrice } from './Game';
+import { GetPrice, GrantAchievement } from './Game';
 
 function actionWorkBuilding(building, amount, gameState) {
     building.currentPower += amount;
@@ -37,7 +37,7 @@ function skeletonCraftActionButton(resources) {
     if (canCraftWorker) {
         button = (
             <Button key="unlockSkeleton"
-                onClick={() => actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources)}
+                onClick={() => { actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources); GrantAchievement("First Worker"); }}
             >
                 Build Skeleton
             </Button>
@@ -47,16 +47,20 @@ function skeletonCraftActionButton(resources) {
         button = (
             <Button key="unlockSkeleton"
                 disabled
-                onClick={() => actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources)}
+                onClick={() => { actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources); GrantAchievement("First Worker"); }}
             >
                 Build Skeleton
             </Button>
         );
     }
 
+    var tooltip = <Tooltip id="bone-to-worker">Bone: {priceBone}</Tooltip>;
+    if (resources.Worker.amount === resources.Mana.amount)
+        tooltip = <Tooltip id="bone-to-worker">Requires more mana!</Tooltip>;
+
     output = (
         <OverlayTrigger
-            overlay={<Tooltip id="bone-to-worker">Bone: {priceBone}</Tooltip>}
+            overlay={tooltip}
             placement="bottom"
             shouldUpdatePosition
             key="bone-to-worker"

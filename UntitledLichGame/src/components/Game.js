@@ -27,20 +27,20 @@ const buildings = {
     "Graveyard": new Building(1,
         0,
         100,
-        function () { resources.Bone.add = 1 * this.quantity * this.effectMultiplier; },
+        function () { resources.Bone.add = Constants.BUILD_EFFECT_GRAVEYARD_BONE_BASE * this.quantity * this.effectMultiplier; },
         [[resources.Bone, Constants.BUILD_CREATE_GRAVEYARD_BONE_BASE, Constants.BUILD_CREATE_GRAVEYARD_BONE_MULTIPLIER]],
         0),
     "Lumberyard": new Building(0,
         0,
         1000,
-        function () { resources.Gold.add = 1 * this.quantity * this.effectMultiplier; },
+        function () { resources.Gold.add = Constants.BUILD_EFFECT_LUMBERYARD_GOLD_BASE * this.quantity * this.effectMultiplier; },
         [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]],
         0),
     "Mines": new Building(0,
         0,
         10000,
-        function () { resources.Gold.add = 10 * this.quantity * this.effectMultiplier; },
-        [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]],
+        function () { resources.Gold.add = Constants.BUILD_EFFECT_MINE_GOLD_BASE * this.quantity * this.effectMultiplier; },
+        [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
         0)
 };
 
@@ -69,6 +69,11 @@ export function GetPrice(basePrice, multiplier, currentlyOwned) {
     return RoundToX(basePrice * Math.pow(multiplier, currentlyOwned), 0);
 }
 
+export function GrantAchievement(achievement) {
+    if (achievements[achievement] === false)
+        achievements[achievement] = true;
+}
+
 function gameLoop() {
 
     //gameState checks
@@ -82,6 +87,11 @@ function gameLoop() {
         gameState.unlockAssignWorkers = true;
         resources["Worker Power"].SetIntialQuantity(Constants.DEFAULT_WORKER_POWER);
     }
+    if (!gameState.unlockLumberyard && resources.Worker.amount >= 10) {
+        gameState.unlockLumberyard = true;
+        buildings.Lumberyard.quantity = 1;
+    }
+
 
     //building calcs
     for (const [buildingKey, buildingObject] of Object.entries(buildings)) {
@@ -100,7 +110,8 @@ class Game extends Component {
                 time: Date.now(),
                 resources: resources,
                 buildings: buildings,
-                gameState: gameState
+                gameState: gameState,
+                achievements: achievements
             });
             gameLoop();
         }, 20);

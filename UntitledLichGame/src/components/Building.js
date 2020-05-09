@@ -2,11 +2,13 @@
 const clone = require('rfdc')();
 
 export default class Building {
-    constructor(quantity, workersAssigned, powerRequired, effect, basePrice, currentPower = 0) {
+    constructor(name, quantity, workersAssigned, powerRequired, resourcesGranted, basePrice, effect = () => { }, currentPower = 0) {
+        this.name = name;
         this.quantity = quantity; //number of this building
         this.initialQuantity = quantity;
         this.workersAssigned = workersAssigned; //number of workers assigned
         this.powerRequired = powerRequired; //progress bar max value
+        this.resourcesGranted = resourcesGranted; //resources given once bar is filled
         this.effect = effect; //effect once bar is filled
         this.currentPower = currentPower; //progress bar current value
         this.effectMultiplier = 1; //used by upgrades to make a building more useful
@@ -19,10 +21,16 @@ export default class Building {
     Tick(workerPower) {
         this.currentPower += this.workersAssigned * workerPower;
         if (this.currentPower >= this.powerRequired) {
+            this.AddResources();
             this.effect();
             this.currentPower = 0;
         }
         this.UpdatePrice();
+    }
+    AddResources() {
+        for (var currentResource = 0; currentResource < this.resourcesGranted.length; currentResource++) {
+            this.resourcesGranted[currentResource][0].add = this.resourcesGranted[currentResource][1] * this.quantity * this.effectMultiplier;
+        }
     }
     UpdatePrice() {
         this.canBuild = true;
@@ -46,6 +54,15 @@ export default class Building {
         var output = "";
         for (var currentResource = 0; currentResource < this.currentPrice.length; currentResource++) {
             output += this.currentPrice[currentResource][0].name + ": " + this.currentPrice[currentResource][1];
+        }
+        return output;
+    }
+    ResourceOutputToString() {
+        var output = "";
+        for (var currentResource = 0; currentResource < this.currentPrice.length; currentResource++) {
+            if (currentResource > 0) output += ", ";
+            output += this.resourcesGranted[currentResource][0].name + ": " + (this.resourcesGranted[currentResource][1] * this.quantity * this.effectMultiplier);
+            output += " (" + this.resourcesGranted[currentResource][1] + " per " + this.name + ")";
         }
         return output;
     }

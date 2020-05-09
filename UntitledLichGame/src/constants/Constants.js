@@ -21,5 +21,13 @@ export const BUILD_EFFECT_GRAVEYARD_BONE_BASE = 1;
 export const BUILD_EFFECT_LUMBERYARD_GOLD_BASE = 1;
 export const BUILD_EFFECT_MINE_GOLD_BASE = 10;
 
+//Building work requirements
+export const BUILD_WORK_REQ_GRAVEYARD_BASE = 100;
+export const BUILD_WORK_REQ_LUMBERYARD_BASE = 1000;
+export const BUILD_WORK_REQ_MINE_BASE = 10000;
+
 //default states
 export const DEFAULT_WORKER_POWER = 1;
+
+//display constants
+export const DISPLAY_PROGRESS_BAR_SWAP = 0.20; //working %/tick to swap from filling bar to solid animating bar

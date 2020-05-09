@@ -4,6 +4,7 @@ import ResourceDisplayGroup from './ResourceDisplayGroup';
 import BuildingDisplayGroup from './BuildingDisplayGroup';
 import GameActionGroup from './GameActionGroup';
 import TechnologyActionGroup from './TechnologyActionGroup';
+import MessageLogDisplay from './MessageLogDisplay';
 import Resource from './Resource';
 import Building from './Building';
 import * as Constants from '../constants/Constants';
@@ -24,24 +25,24 @@ const resources = {
 };
 
 const buildings = {
-    "Graveyard": new Building(1,
+    "Graveyard": new Building("Graveyard",
+        1,
         0,
-        100,
-        function () { resources.Bone.add = Constants.BUILD_EFFECT_GRAVEYARD_BONE_BASE * this.quantity * this.effectMultiplier; },
-        [[resources.Bone, Constants.BUILD_CREATE_GRAVEYARD_BONE_BASE, Constants.BUILD_CREATE_GRAVEYARD_BONE_MULTIPLIER]],
-        0),
-    "Lumberyard": new Building(0,
+        Constants.BUILD_WORK_REQ_GRAVEYARD_BASE,
+        [[resources.Bone, Constants.BUILD_EFFECT_GRAVEYARD_BONE_BASE]],
+        [[resources.Bone, Constants.BUILD_CREATE_GRAVEYARD_BONE_BASE, Constants.BUILD_CREATE_GRAVEYARD_BONE_MULTIPLIER]]),
+    "Lumberyard": new Building("Lumberyard",
         0,
-        1000,
-        function () { resources.Gold.add = Constants.BUILD_EFFECT_LUMBERYARD_GOLD_BASE * this.quantity * this.effectMultiplier; },
-        [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]],
-        0),
-    "Mines": new Building(0,
         0,
-        10000,
-        function () { resources.Gold.add = Constants.BUILD_EFFECT_MINE_GOLD_BASE * this.quantity * this.effectMultiplier; },
-        [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
-        0)
+        Constants.BUILD_WORK_REQ_LUMBERYARD_BASE,
+        [[resources.Gold, Constants.BUILD_EFFECT_LUMBERYARD_GOLD_BASE]],
+        [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]]),
+    "Mine": new Building("Mine",
+        0,
+        0,
+        Constants.BUILD_WORK_REQ_MINE_BASE,
+        [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
+        [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]])
 };
 
 const gameState = {
@@ -61,6 +62,8 @@ const achievements = {
     "First Worker": false
 };
 
+const messageLog = ["You find yourself in a graveyard."];
+
 export function RoundToX(num, X) {
     return +(Math.round(num + "e+" + X) + "e-" + X);
 }
@@ -72,6 +75,11 @@ export function GetPrice(basePrice, multiplier, currentlyOwned) {
 export function GrantAchievement(achievement) {
     if (achievements[achievement] === false)
         achievements[achievement] = true;
+}
+
+export function AddLogMessage(message) {
+    messageLog.unshift(message);
+    if (messageLog.length > 10) messageLog.pop();
 }
 
 function gameLoop() {
@@ -119,39 +127,37 @@ class Game extends Component {
     render() {
         return (
             <Container fluid="true">
-                {gameState.newGame &&
-                    <Row>
-                        <Col className="text-center">You find yourself in a graveyard.</Col>
-                        <Col className="text-center">
-                            <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
-                        </Col>
-                    </Row>
-                }
-                {!gameState.newGame &&
-                    <Row>
+                <Row>
+                    <Col sm={8}>
+                        {!gameState.newGame &&
+                            <Row>
 
-                        <Col>
-                            <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
-                        </Col>
-                        <Col>
-                            <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
-                        </Col>
+                                <Col>
+                                    <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                </Col>
+                                <Col>
+                                    <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                </Col>
 
-                    </Row>
-                }
-                {!gameState.newGame &&
-                    <Row>
-                        <Col>
-                            <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
-
-                        </Col>
-                        {gameState.unlockTechnology &&
-                            <Col>
-                                <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
-                            </Col>
+                            </Row>
                         }
-                    </Row>
-                }
+                        {!gameState.newGame &&
+                            <Row>
+                                <Col>
+                                    <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                </Col>
+                                {gameState.unlockTechnology &&
+                                    <Col>
+                                        <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                    </Col>
+                                }
+                            </Row>
+                        }
+                    </Col>
+                    <Col sm={4}>
+                        <MessageLogDisplay messageLog={messageLog} />
+                    </Col>
+                </Row>
             </Container>
         );
     }

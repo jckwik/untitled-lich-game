@@ -14,9 +14,14 @@ function workersAssignedWillNotExceedCurrentWorkers(currentWorkersAssigned, work
     return false;
 }
 
+function buildingExists(buildingObject) {
+    return buildingObject.quantity > 0;
+}
+
 function incrementWorker(workersToAssign, buildingObject, workerObject, currentlyAssignedWorkerObject) {
     if (workersAssignedWillNotExceedCurrentWorkers(currentlyAssignedWorkerObject.quantity, workersToAssign, workerObject.quantity)
-        && workersAssignedWillNotBeNegative(buildingObject.workersAssigned, workersToAssign)) {
+        && workersAssignedWillNotBeNegative(buildingObject.workersAssigned, workersToAssign)
+        && buildingExists(buildingObject)) {
         buildingObject.workersAssigned += workersToAssign;
         currentlyAssignedWorkerObject.quantity += workersToAssign;
     }
@@ -35,6 +40,7 @@ export default function BuildingDisplay({ building, buildingName, resources, gam
                 currentWorkers={building.workersAssigned}
                 workerPower={resources["Worker Power"].amount}
             />
+            {building.ResourceOutputToString()}
             <Button onClick={() => incrementWorker(-1, building, resources.Worker, resources["Currently Assigned Workers"])}>-</Button>
             {building.workersAssigned}
             <Button onClick={() => incrementWorker(+1, building, resources.Worker, resources["Currently Assigned Workers"])}>+</Button>

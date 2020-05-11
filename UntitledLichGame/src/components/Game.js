@@ -51,7 +51,8 @@ const gameState = {
     unlockTechnology: false,
     unlockCraftSkeleton: false,
     unlockAssignWorkers: false,
-    unlockManaBar: false //might be redudnant with the one above
+    unlockManaBar: false, //might be redudnant with the one above
+    assignWorkerNumber: 5
 };
 
 const gameStats = {
@@ -85,9 +86,9 @@ export function AddLogMessage(message) {
 function gameLoop() {
 
     //gameState checks
-    //if (gameState.newGame && resources["Bone"].quantity >= 1) {
-    //	gameState.newGame = false;
-    //}
+    if (gameState.newGame && resources["Bone"].quantity >= 1) {
+        gameState.newGame = false;
+    }
     if (!gameState.unlockCraftSkeleton && resources["Bone"].quantity >= Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE) {
         gameState.unlockCraftSkeleton = true;
     }

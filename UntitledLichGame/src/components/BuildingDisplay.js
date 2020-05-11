@@ -14,23 +14,46 @@ function workersAssignedWillNotExceedCurrentWorkers(currentWorkersAssigned, work
     return false;
 }
 
+function maximumNumberOfWorkersCurrentlyAssigned(currentWorkers, currentWorkersAssigned) {
+    return currentWorkers === currentWorkersAssigned;
+}
+
 function buildingExists(buildingObject) {
     return buildingObject.quantity > 0;
 }
 
 function incrementWorker(workersToAssign, buildingObject, workerObject, currentlyAssignedWorkerObject) {
-    if (workersAssignedWillNotExceedCurrentWorkers(currentlyAssignedWorkerObject.quantity, workersToAssign, workerObject.quantity)
+    if (workersAssignedWillNotExceedCurrentWorkers(currentlyAssignedWorkerObject.amount, workersToAssign, workerObject.amount)
         && workersAssignedWillNotBeNegative(buildingObject.workersAssigned, workersToAssign)
         && buildingExists(buildingObject)) {
         buildingObject.workersAssigned += workersToAssign;
-        currentlyAssignedWorkerObject.quantity += workersToAssign;
+        currentlyAssignedWorkerObject.add = workersToAssign;
+    }
+    else if (!workersAssignedWillNotExceedCurrentWorkers(currentlyAssignedWorkerObject.amount, workersToAssign, workerObject.amount)
+        && buildingExists(buildingObject)) {
+        var newWorkersToAssign = workerObject.amount - currentlyAssignedWorkerObject.amount;
+        buildingObject.workersAssigned += newWorkersToAssign;
+        currentlyAssignedWorkerObject.add = newWorkersToAssign;
+    }
+    else if (!workersAssignedWillNotBeNegative(buildingObject.workersAssigned, workersToAssign)
+        && buildingExists(buildingObject)) {
+        var workersToUnassign = buildingObject.workersAssigned;
+        buildingObject.workersAssigned -= workersToUnassign;
+        currentlyAssignedWorkerObject.remove = workersToUnassign;
     }
     else {
-        //TODO: add error handling and output
+        console.log("What is happening I can't actually assign workers?!?!?!?!?");
     }
 }
 
 export default function BuildingDisplay({ building, buildingName, resources, gameState }) {
+    var decrementWorkerButton = <Button onClick={() => incrementWorker(-gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>-{gameState.assignWorkerNumber}</Button>;
+    if (building.workersAssigned === 0 || !buildingExists(building))
+        decrementWorkerButton = <Button disabled onClick={() => incrementWorker(-gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>-{gameState.assignWorkerNumber}</Button>;
+    var incrementWorkerButton = <Button onClick={() => incrementWorker(+gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>+{gameState.assignWorkerNumber}</Button>;
+    if (maximumNumberOfWorkersCurrentlyAssigned(resources.Worker.amount, resources["Currently Assigned Workers"].amount) || !buildingExists(building))
+        incrementWorkerButton = <Button disabled onClick={() => incrementWorker(+gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>+{gameState.assignWorkerNumber}</Button>;
+
     return (
         <ListGroup.Item><div>{buildingName}: {building.quantity}</div>
             <BuildingBuildButton building={building} buildingName={buildingName} />
@@ -41,9 +64,9 @@ export default function BuildingDisplay({ building, buildingName, resources, gam
                 workerPower={resources["Worker Power"].amount}
             />
             {building.ResourceOutputToString()}
-            <Button onClick={() => incrementWorker(-1, building, resources.Worker, resources["Currently Assigned Workers"])}>-</Button>
+            {decrementWorkerButton}
             {building.workersAssigned}
-            <Button onClick={() => incrementWorker(+1, building, resources.Worker, resources["Currently Assigned Workers"])}>+</Button>
+            {incrementWorkerButton}
         </ListGroup.Item>
     );
 }

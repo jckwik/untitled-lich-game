@@ -34,7 +34,7 @@ const resources = {
     "Stone": new Resource(0, "Stone", true, "assets/stone.png"),
     "Wood": new Resource(0, "Wood", true, "assets/wood.png"),
     "Zombie": new Resource(0, "Zombie"),
-    "Army Power": new Resource(1, "Army Power")
+    "Army Power": new Resource(0, "Army Power")
 };
 
 const buildings = {
@@ -56,7 +56,7 @@ const buildings = {
         Constants.BUILD_WORK_REQ_MINE_BASE,
         [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
         [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
-        () => { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) resources.Diamond.add = 1; })
+        function() { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) resources.Diamond.add = 1; })
 };
 
 const gameState = {

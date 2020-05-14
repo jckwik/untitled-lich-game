@@ -56,7 +56,7 @@ export default function BuildingDisplay({ building, buildingName, resources, gam
 
     return (
         <ListGroup.Item><div>{buildingName}: {building.quantity}</div>
-            <BuildingBuildButton building={building} buildingName={buildingName} />
+            <BuildingBuildButton building={building} buildingName={buildingName} numberToBuild={gameState.buildingsToBuyNumber} />
             <BuildingDisplayProgressBar
                 currentPower={building.currentPower}
                 maxPower={building.powerRequired}

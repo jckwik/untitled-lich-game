@@ -106,12 +106,25 @@
     <Content Include="jsconfig.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\assets\bone.png" />
+    <Content Include="src\assets\coal.png" />
+    <Content Include="src\assets\crystal.png" />
+    <Content Include="src\assets\fire.png" />
+    <Content Include="src\assets\gold.png" />
+    <Content Include="src\assets\heart.png" />
+    <Content Include="src\assets\ice.png" />
+    <Content Include="src\assets\lightning.png" />
+    <Content Include="src\assets\slime.png" />
+    <Content Include="src\assets\soul.png" />
+    <Content Include="src\assets\stone.png" />
+    <Content Include="src\assets\wood.png" />
     <Content Include="src\style\game.css">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
     <Folder Include="src\constants\" />

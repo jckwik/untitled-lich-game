@@ -1,4 +1,4 @@
-﻿import { GetPrice } from './Game';
+﻿import { GetPrice, GetPriceForMultiple } from './Game';
 const clone = require('rfdc')();
 
 export default class Building {
@@ -42,20 +42,38 @@ export default class Building {
         }
     }
     Build() {
-        this.UpdatePrice();
         if (this.canBuild) {
             for (var currentResource = 0; currentResource < this.currentPrice.length; currentResource++) {
                 this.currentPrice[currentResource][0].remove = this.currentPrice[currentResource][1];
             }
             this.quantity += 1;
         }
+        this.UpdatePrice();
     }
-    PriceToString() {
+    BuildMultiple(numberToBuild) {
+        for (var iteration = 0; iteration < numberToBuild; iteration++) {
+            if (this.canBuild)
+                this.Build();
+            else
+                break;
+        }
+    }
+    PriceToString(priceArray = this.currentPrice) {
         var output = "";
-        for (var currentResource = 0; currentResource < this.currentPrice.length; currentResource++) {
-            output += this.currentPrice[currentResource][0].name + ": " + this.currentPrice[currentResource][1];
+        for (var currentResource = 0; currentResource < priceArray.length; currentResource++) {
+            output += priceArray[currentResource][0].name + ": " + priceArray[currentResource][1];
         }
         return output;
+    }
+    PriceToStringMultiple(numberToBuy) {
+        var tempPrice = clone(this.currentPrice);
+        //console.log(tempPrice);
+        for (var currentResource = 0; currentResource < this.basePrice.length; currentResource++) {
+            tempPrice[currentResource][0] = this.basePrice[currentResource][0];
+            tempPrice[currentResource][1] = GetPriceForMultiple(this.basePrice[currentResource][1], this.basePrice[currentResource][2], this.quantity - this.initialQuantity, numberToBuy);
+        }
+        //console.log(tempPrice);
+        return this.PriceToString(tempPrice);
     }
     ResourceOutputToString() {
         var output = "";

@@ -19,9 +19,22 @@ const resources = {
     "Worker": new Resource(0, "Worker", false),
     "Worker Power": new Resource(0, "Worker Power", false),
     "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false),
-    "Bone": new Resource(10, "Bone"),
-    "Gold": new Resource(0, "Gold"),
-    "Mana": new Resource(100, "Mana", false)
+    "Bone": new Resource(10, "Bone", true, "assets/bone.png"),
+    "Coal": new Resource(0, "Coal", true, "assets/coal.png"),
+    "Crystal": new Resource(0, "Crystal", true, "assets/crystal.png"),
+    "Diamond": new Resource(0, "Diamond"),
+    "Fire": new Resource(0, "Fire", true, "assets/fire.png"),
+    "Gold": new Resource(0, "Gold", true, "assets/gold.png"),
+    "Heart": new Resource(0, "Heart", true, "assets/heart.png"),
+    "Ice": new Resource(0, "Ice", true, "assets/ice.png"),
+    "Lightning": new Resource(0, "Lightning", true, "assets/lightning.png"),
+    "Mana": new Resource(100, "Mana", false),
+    "Slime": new Resource(0, "Slime", true, "assets/slime.png"),
+    "Soul": new Resource(0, "Soul", true, "assets/soul.png"),
+    "Stone": new Resource(0, "Stone", true, "assets/stone.png"),
+    "Wood": new Resource(0, "Wood", true, "assets/wood.png"),
+    "Zombie": new Resource(0, "Zombie"),
+    "Army Power": new Resource(1, "Army Power")
 };
 
 const buildings = {
@@ -42,7 +55,8 @@ const buildings = {
         0,
         Constants.BUILD_WORK_REQ_MINE_BASE,
         [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
-        [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]])
+        [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
+        () => { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) resources.Diamond.add = 1; })
 };
 
 const gameState = {
@@ -52,7 +66,8 @@ const gameState = {
     unlockCraftSkeleton: false,
     unlockAssignWorkers: false,
     unlockManaBar: false, //might be redudnant with the one above
-    assignWorkerNumber: 5
+    assignWorkerNumber: 5,
+    buildingsToBuyNumber: 1
 };
 
 const gameStats = {
@@ -73,6 +88,14 @@ export function GetPrice(basePrice, multiplier, currentlyOwned) {
     return RoundToX(basePrice * Math.pow(multiplier, currentlyOwned), 0);
 }
 
+export function GetPriceForMultiple(basePrice, multiplier, currentlyOwned, numberToBuy) {
+    var price = 0;
+    for (var iteration = 0; iteration < numberToBuy; iteration++) {
+        price += GetPrice(basePrice, multiplier, currentlyOwned+iteration);
+    }
+    return price;
+}
+
 export function GrantAchievement(achievement) {
     if (achievements[achievement] === false)
         achievements[achievement] = true;
@@ -81,6 +104,10 @@ export function GrantAchievement(achievement) {
 export function AddLogMessage(message) {
     messageLog.unshift(message);
     if (messageLog.length > 10) messageLog.pop();
+}
+
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function gameLoop() {

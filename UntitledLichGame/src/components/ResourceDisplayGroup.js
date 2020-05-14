@@ -9,7 +9,7 @@ export default function ResourceDisplayGroup({ resources, buildings, gameState, 
     if (gameState.newGame === false) output.push(<ManaDisplay key="Manabar" resources={resources} />);
     for (const [resourceKey, resource] of Object.entries(resources)) {
         if (resource.amount > 0 && resource.shouldDisplay) {
-            output.push(<ResourceDisplay key={resourceKey} resource={resourceKey} quantity={resource.amount} />);
+            output.push(<ResourceDisplay key={resourceKey} resource={resourceKey} quantity={resource.amount} image={resource.imageFile} />);
         }
     }
     return (<Jumbotron><h1>Resources</h1>

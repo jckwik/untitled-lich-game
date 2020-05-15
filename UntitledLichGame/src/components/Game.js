@@ -13,6 +13,7 @@ import { setInterval } from 'timers';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 // Instantiate all resources and buildings here
 const resources = {
@@ -56,7 +57,7 @@ const buildings = {
         Constants.BUILD_WORK_REQ_MINE_BASE,
         [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
         [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
-        function() { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) resources.Diamond.add = 1; })
+        function () { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) resources.Diamond.add = 1; })
 };
 
 const gameState = {
@@ -91,7 +92,7 @@ export function GetPrice(basePrice, multiplier, currentlyOwned) {
 export function GetPriceForMultiple(basePrice, multiplier, currentlyOwned, numberToBuy) {
     var price = 0;
     for (var iteration = 0; iteration < numberToBuy; iteration++) {
-        price += GetPrice(basePrice, multiplier, currentlyOwned+iteration);
+        price += GetPrice(basePrice, multiplier, currentlyOwned + iteration);
     }
     return price;
 }
@@ -138,8 +139,13 @@ function gameLoop() {
 class Game extends Component {
     constructor(props) {
         super(props);
-        this.state = { time: Date.now() };
+        this.state = {
+            time: Date.now(),
+            key: 1
+        };
+        console.log("[HI THERE]");
     }
+
     componentDidMount() {
         this.interval = setInterval(() => {
             this.setState({
@@ -147,46 +153,62 @@ class Game extends Component {
                 resources: resources,
                 buildings: buildings,
                 gameState: gameState,
-                achievements: achievements
+                achievements: achievements,
             });
             gameLoop();
         }, 20);
     }
     render() {
         return (
-            <Container fluid="true">
-                <Row>
-                    <Col sm={8}>
-                        {!gameState.newGame &&
-                            <Row>
+            <Tabs id="game-tabs" defaultIndex={0}>
+                <TabList>
+                    <Tab>Main</Tab>
+                    <Tab>Market</Tab>
+                </TabList>
+                <TabPanel>
+                    <Container fluid="true">
+                        <Row>
+                            <Col sm={8}>
+                                {!gameState.newGame &&
+                                    <Row>
 
-                                <Col>
-                                    <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
-                                </Col>
-                                <Col>
-                                    <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
-                                </Col>
+                                        <Col>
+                                            <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                        </Col>
+                                        <Col>
+                                            <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                        </Col>
 
-                            </Row>
-                        }
-                        {!gameState.newGame &&
-                            <Row>
-                                <Col>
-                                    <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
-                                </Col>
-                                {gameState.unlockTechnology &&
-                                    <Col>
-                                        <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
-                                    </Col>
+                                    </Row>
                                 }
-                            </Row>
-                        }
-                    </Col>
-                    <Col sm={4}>
-                        <MessageLogDisplay messageLog={messageLog} />
-                    </Col>
-                </Row>
-            </Container>
+                                {!gameState.newGame &&
+                                    <Row>
+                                        <Col>
+                                            <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                        </Col>
+                                        {gameState.unlockTechnology &&
+                                            <Col>
+                                                <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                            </Col>
+                                        }
+                                    </Row>
+                                }
+                            </Col>
+                            <Col sm={4}>
+                                <MessageLogDisplay messageLog={messageLog} />
+                            </Col>
+                        </Row>
+                    </Container>
+                </TabPanel>
+                <TabPanel>
+                    <Container fluid="true">
+                        <Row>
+                            <Col>
+                            </Col>
+                        </Row>
+                    </Container>
+                </TabPanel>
+            </Tabs>
         );
     }
 }

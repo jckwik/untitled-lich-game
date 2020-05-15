@@ -1,10 +1,12 @@
 ﻿export default class Resource {
-    constructor(quantity, name = "", shouldDisplay = true, pathToImage = "") {
+    constructor(quantity, name = "", isMarketable = false, shouldDisplay = true, pathToImage = "") {
         this.quantity = quantity;
         this.name = name;
         this.shouldDisplay = shouldDisplay;
         this.totalCreated = quantity;
         this.imageFile = pathToImage;
+        this.inMarket = isMarketable;
+        this.boughtInMarket = 0;
     }
     UpdateTotalCreated(newTotal) {
         this.totalCreated = newTotal;

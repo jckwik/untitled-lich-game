@@ -31,3 +31,7 @@ export const DEFAULT_WORKER_POWER = 1;
 
 //display constants
 export const DISPLAY_PROGRESS_BAR_SWAP = 0.20; //working %/tick to swap from filling bar to solid animating bar
+
+//Market constants
+export const MARKET_BASE_PRICE = 40;
+export const MARKET_BASE_MULTIPLIER = 1.15;

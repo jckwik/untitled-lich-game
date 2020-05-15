@@ -7,6 +7,7 @@ import TechnologyActionGroup from './TechnologyActionGroup';
 import MessageLogDisplay from './MessageLogDisplay';
 import Resource from './Resource';
 import Building from './Building';
+import Market from './Market';
 import * as Constants from '../constants/Constants';
 
 import { setInterval } from 'timers';
@@ -17,25 +18,25 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 // Instantiate all resources and buildings here
 const resources = {
-    "Worker": new Resource(0, "Worker", false),
-    "Worker Power": new Resource(0, "Worker Power", false),
-    "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false),
-    "Bone": new Resource(10, "Bone", true, "assets/bone.png"),
-    "Coal": new Resource(0, "Coal", true, "assets/coal.png"),
-    "Crystal": new Resource(0, "Crystal", true, "assets/crystal.png"),
-    "Diamond": new Resource(0, "Diamond"),
-    "Fire": new Resource(0, "Fire", true, "assets/fire.png"),
-    "Gold": new Resource(0, "Gold", true, "assets/gold.png"),
-    "Heart": new Resource(0, "Heart", true, "assets/heart.png"),
-    "Ice": new Resource(0, "Ice", true, "assets/ice.png"),
-    "Lightning": new Resource(0, "Lightning", true, "assets/lightning.png"),
-    "Mana": new Resource(100, "Mana", false),
-    "Slime": new Resource(0, "Slime", true, "assets/slime.png"),
-    "Soul": new Resource(0, "Soul", true, "assets/soul.png"),
-    "Stone": new Resource(0, "Stone", true, "assets/stone.png"),
-    "Wood": new Resource(0, "Wood", true, "assets/wood.png"),
-    "Zombie": new Resource(0, "Zombie"),
-    "Army Power": new Resource(0, "Army Power")
+    "Worker": new Resource(0, "Worker", false, false),
+    "Worker Power": new Resource(0, "Worker Power", false, false),
+    "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false, false),
+    "Bone": new Resource(10, "Bone", false, true, "assets/bone.png"),
+    "Coal": new Resource(0, "Coal", true, true, "assets/coal.png"),
+    "Crystal": new Resource(0, "Crystal", false, true, "assets/crystal.png"),
+    "Diamond": new Resource(0, "Diamond", true),
+    "Fire": new Resource(0, "Fire", false, true, "assets/fire.png"),
+    "Gold": new Resource(0, "Gold", false, true, "assets/gold.png"),
+    "Heart": new Resource(0, "Heart", false, true, "assets/heart.png"),
+    "Ice": new Resource(0, "Ice", false, true, "assets/ice.png"),
+    "Lightning": new Resource(0, "Lightning", false, true, "assets/lightning.png"),
+    "Mana": new Resource(100, "Mana", false, false),
+    "Slime": new Resource(0, "Slime", false, true, "assets/slime.png"),
+    "Soul": new Resource(0, "Soul", false, true, "assets/soul.png"),
+    "Stone": new Resource(0, "Stone", true, true, "assets/stone.png"),
+    "Wood": new Resource(0, "Wood", true, true, "assets/wood.png"),
+    "Zombie": new Resource(0, "Zombie", false),
+    "Army Power": new Resource(0, "Army Power", false)
 };
 
 const buildings = {
@@ -57,7 +58,7 @@ const buildings = {
         Constants.BUILD_WORK_REQ_MINE_BASE,
         [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
         [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
-        function () { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) resources.Diamond.add = 1; })
+        function () { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) { resources.Diamond.add = 1; AddLogMessage("You found a diamond in a mine!"); }})
 };
 
 const gameState = {
@@ -68,7 +69,8 @@ const gameState = {
     unlockAssignWorkers: false,
     unlockManaBar: false, //might be redudnant with the one above
     assignWorkerNumber: 5,
-    buildingsToBuyNumber: 1
+    buildingsToBuyNumber: 1,
+    marketMultiplier: Constants.MARKET_BASE_MULTIPLIER
 };
 
 const gameStats = {
@@ -76,7 +78,8 @@ const gameStats = {
 };
 
 const achievements = {
-    "First Worker": false
+    "First Worker": false,
+    "Charity": false
 };
 
 const messageLog = ["You find yourself in a graveyard."];
@@ -160,55 +163,65 @@ class Game extends Component {
     }
     render() {
         return (
-            <Tabs id="game-tabs" defaultIndex={0}>
-                <TabList>
-                    <Tab>Main</Tab>
-                    <Tab>Market</Tab>
-                </TabList>
-                <TabPanel>
-                    <Container fluid="true">
-                        <Row>
-                            <Col sm={8}>
-                                {!gameState.newGame &&
+            <Container fluid="true">
+                <Row>
+                    <Col sm={8}>
+                        <Tabs id="game-tabs" defaultIndex={0}>
+                            <TabList>
+                                <Tab>Main</Tab>
+                                <Tab>Market</Tab>
+                            </TabList>
+                            <TabPanel>
+                                <Container fluid="true">
                                     <Row>
+                                        <Col>
+                                            {!gameState.newGame &&
+                                                <Row>
 
+                                                    <Col>
+                                                        <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                                    </Col>
+                                                    <Col>
+                                                        <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                                    </Col>
+
+                                                </Row>
+                                            }
+                                            {!gameState.newGame &&
+                                                <Row>
+                                                    <Col>
+                                                        <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                                    </Col>
+                                                    {gameState.unlockTechnology &&
+                                                        <Col>
+                                                            <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
+                                                        </Col>
+                                                    }
+                                                </Row>
+                                            }
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </TabPanel>
+                            <TabPanel>
+                                <Container fluid="true">
+                                    <Row>
                                         <Col>
                                             <ResourceDisplayGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
                                         </Col>
                                         <Col>
-                                            <GameActionGroup resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
+                                            <Market resources={resources} buildings={buildings} gameState={gameState} gameStats={gameStats} />
                                         </Col>
-
                                     </Row>
-                                }
-                                {!gameState.newGame &&
-                                    <Row>
-                                        <Col>
-                                            <BuildingDisplayGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
-                                        </Col>
-                                        {gameState.unlockTechnology &&
-                                            <Col>
-                                                <TechnologyActionGroup buildings={buildings} resources={resources} gameState={gameState} gameStats={gameStats} />
-                                            </Col>
-                                        }
-                                    </Row>
-                                }
-                            </Col>
-                            <Col sm={4}>
-                                <MessageLogDisplay messageLog={messageLog} />
-                            </Col>
-                        </Row>
-                    </Container>
-                </TabPanel>
-                <TabPanel>
-                    <Container fluid="true">
-                        <Row>
-                            <Col>
-                            </Col>
-                        </Row>
-                    </Container>
-                </TabPanel>
-            </Tabs>
+                                </Container>
+                            </TabPanel>
+                        </Tabs>
+                    </Col>
+                    <Col sm={4}>
+                        <MessageLogDisplay messageLog={messageLog} />
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

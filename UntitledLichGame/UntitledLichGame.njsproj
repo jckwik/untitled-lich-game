@@ -59,6 +59,9 @@
     <Compile Include="src\components\ManaDisplay.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\components\Market.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\MessageLogDisplay.js">
       <SubType>Code</SubType>
     </Compile>

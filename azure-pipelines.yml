@@ -21,3 +21,19 @@ steps:
     npm update
     npm run build
   displayName: 'npm install and build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: '<Azure service connections>'
+    appName: '<Name of web app>'
+    package: '$(System.DefaultWorkingDirectory)'
+    customWebConfig: '-Handler iisnode -NodeStartFile server.js -appType node'

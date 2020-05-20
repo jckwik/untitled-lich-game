@@ -16,6 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    cd UntitledLichGame
     npm install
     npm update
     npm run build

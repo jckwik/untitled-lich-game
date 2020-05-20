@@ -1,7 +1,14 @@
 ﻿/// <binding />
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
 
 module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'index_bundle.js'
+    },
     module: {
         rules: [
             {
@@ -27,6 +34,10 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin([
             { from: 'src/assets', to: 'assets' }
-        ])
+        ]),
+        new HtmlWebpackPlugin({
+            title: 'Untitled Lich Clicker',
+            template: 'index.html'
+        })
     ]
 };

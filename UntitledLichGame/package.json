@@ -2,6 +2,7 @@
   "name": "UntitledLichGame",
   "version": "0.0.0",
   "description": "A very lichy clicker",
+  "main": "/src/server/server.js",
   "homepage": "https://jckwik.github.io/untitled-lich-game/",
   "author": {
     "name": "Jckwik & Sushi"
@@ -36,14 +37,15 @@
     "webpack-dev-server": "^3.10.3"
   },
   "scripts": {
-    "dev-server": "nodemon --exec babel-node src/server/server.js --ignore dist/ --mode development --display-error-details --color",
-    "dev-bundle": "webpack -wd",
-    "build": "webpack -p",
+    "dev-server": "nodemon --exec babel-node src/server/server.js --ignore './dist/' --mode development -V",
+    "dev-bundle": "webpack -wd --config webpack.dev.js",
+    "build": "webpack -p --config webpack.prod.js",
     "deploy": "npm run build&&gh-pages -d dist"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.1.1",
     "gh-pages": "^2.2.0",
-    "html-webpack-plugin": "^4.3.0"
+    "html-webpack-plugin": "^4.3.0",
+    "webpack-merge": "^4.2.2"
   }
 }

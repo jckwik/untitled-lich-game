@@ -10,6 +10,7 @@ import Building from './Building';
 import Market from './Market';
 import Settings from './Settings';
 import * as Constants from '../constants/Constants';
+import {Save} from './SaveFunctions';
 
 import { setInterval } from 'timers';
 import Container from 'react-bootstrap/Container';
@@ -76,7 +77,8 @@ function GetDefaultGameState() {
         unlockManaBar: false, //might be redudnant with the one above
         assignWorkerNumber: 5,
         buildingsToBuyNumber: 1,
-        marketMultiplier: Constants.MARKET_BASE_MULTIPLIER
+        marketMultiplier: Constants.MARKET_BASE_MULTIPLIER,
+        lastSaveTime: Date.now()
     };
 }
 
@@ -177,6 +179,11 @@ function gameLoop() {
     for (const [buildingKey, buildingObject] of Object.entries(buildings)) {
         buildingObject.Tick(resources["Worker Power"].amount);
     }
+
+    if (gameState.lastSaveTime+60000 < Date.now()) {
+        gameState.lastSaveTime = Date.now();
+        Save(); 
+    }
 }
 
 class Game extends Component {
@@ -186,7 +193,7 @@ class Game extends Component {
             time: Date.now(),
             key: 1
         };
-        console.log("[HI THERE LICH PERSON]");
+        console.log("[HI THERE LICH PERSON?]");
     }
 
     componentDidMount() {

@@ -8,6 +8,7 @@ import MessageLogDisplay from './MessageLogDisplay';
 import Resource from './Resource';
 import Building from './Building';
 import Market from './Market';
+import Settings from './Settings';
 import * as Constants from '../constants/Constants';
 
 import { setInterval } from 'timers';
@@ -17,72 +18,84 @@ import Col from 'react-bootstrap/Col';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 // Instantiate all resources and buildings here
-const resources = {
-    "Worker": new Resource(0, "Worker", false, false),
-    "Worker Power": new Resource(0, "Worker Power", false, false),
-    "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false, false),
-    "Bone": new Resource(10, "Bone", false, true, "assets/bone.png"),
-    "Coal": new Resource(0, "Coal", true, true, "assets/coal.png"),
-    "Crystal": new Resource(0, "Crystal", false, true, "assets/crystal.png"),
-    "Diamond": new Resource(0, "Diamond", true),
-    "Fire": new Resource(0, "Fire", false, true, "assets/fire.png"),
-    "Gold": new Resource(0, "Gold", false, true, "assets/gold.png"),
-    "Heart": new Resource(0, "Heart", false, true, "assets/heart.png"),
-    "Ice": new Resource(0, "Ice", false, true, "assets/ice.png"),
-    "Lightning": new Resource(0, "Lightning", false, true, "assets/lightning.png"),
-    "Mana": new Resource(100, "Mana", false, false),
-    "Slime": new Resource(0, "Slime", false, true, "assets/slime.png"),
-    "Soul": new Resource(0, "Soul", false, true, "assets/soul.png"),
-    "Stone": new Resource(0, "Stone", true, true, "assets/stone.png"),
-    "Wood": new Resource(0, "Wood", true, true, "assets/wood.png"),
-    "Zombie": new Resource(0, "Zombie", false),
-    "Army Power": new Resource(0, "Army Power", false)
-};
+function GetDefaultResources() {
+    return {
+        "Worker": new Resource(0, "Worker", false, false),
+        "Worker Power": new Resource(0, "Worker Power", false, false),
+        "Currently Assigned Workers": new Resource(0, "Currently Assigned Workers", false, false),
+        "Bone": new Resource(10, "Bone", false, true, "assets/bone.png"),
+        "Coal": new Resource(0, "Coal", true, true, "assets/coal.png"),
+        "Crystal": new Resource(0, "Crystal", false, true, "assets/crystal.png"),
+        "Diamond": new Resource(0, "Diamond", true),
+        "Fire": new Resource(0, "Fire", false, true, "assets/fire.png"),
+        "Gold": new Resource(0, "Gold", false, true, "assets/gold.png"),
+        "Heart": new Resource(0, "Heart", false, true, "assets/heart.png"),
+        "Ice": new Resource(0, "Ice", false, true, "assets/ice.png"),
+        "Lightning": new Resource(0, "Lightning", false, true, "assets/lightning.png"),
+        "Mana": new Resource(100, "Mana", false, false),
+        "Slime": new Resource(0, "Slime", false, true, "assets/slime.png"),
+        "Soul": new Resource(0, "Soul", false, true, "assets/soul.png"),
+        "Stone": new Resource(0, "Stone", true, true, "assets/stone.png"),
+        "Wood": new Resource(0, "Wood", true, true, "assets/wood.png"),
+        "Zombie": new Resource(0, "Zombie", false),
+        "Army Power": new Resource(0, "Army Power", false)
+    };
+}
 
-const buildings = {
-    "Graveyard": new Building("Graveyard",
-        1,
-        0,
-        Constants.BUILD_WORK_REQ_GRAVEYARD_BASE,
-        [[resources.Bone, Constants.BUILD_EFFECT_GRAVEYARD_BONE_BASE]],
-        [[resources.Bone, Constants.BUILD_CREATE_GRAVEYARD_BONE_BASE, Constants.BUILD_CREATE_GRAVEYARD_BONE_MULTIPLIER]]),
-    "Lumberyard": new Building("Lumberyard",
-        0,
-        0,
-        Constants.BUILD_WORK_REQ_LUMBERYARD_BASE,
-        [[resources.Gold, Constants.BUILD_EFFECT_LUMBERYARD_GOLD_BASE]],
-        [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]]),
-    "Mine": new Building("Mine",
-        0,
-        0,
-        Constants.BUILD_WORK_REQ_MINE_BASE,
-        [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
-        [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
-        function () { for (var increment = 0; increment < this.quantity; increment++) if (getRndInteger(1, 100) <= 5) { resources.Diamond.add = 1; AddLogMessage("You found a diamond in a mine!"); }})
-};
+function GetDefaultBuildings() {
+    return {
+        "Graveyard": new Building("Graveyard",
+            1,
+            0,
+            Constants.BUILD_WORK_REQ_GRAVEYARD_BASE,
+            [[resources.Bone, Constants.BUILD_EFFECT_GRAVEYARD_BONE_BASE]],
+            [[resources.Bone, Constants.BUILD_CREATE_GRAVEYARD_BONE_BASE, Constants.BUILD_CREATE_GRAVEYARD_BONE_MULTIPLIER]]),
+        "Lumberyard": new Building("Lumberyard",
+            0,
+            0,
+            Constants.BUILD_WORK_REQ_LUMBERYARD_BASE,
+            [[resources.Gold, Constants.BUILD_EFFECT_LUMBERYARD_GOLD_BASE]],
+            [[resources.Gold, Constants.BUILD_CREATE_LUMBERYARD_GOLD_BASE, Constants.BUILD_CREATE_LUMBERYARD_GOLD_MULTIPLIER]]),
+        "Mine": new Building("Mine",
+            0,
+            0,
+            Constants.BUILD_WORK_REQ_MINE_BASE,
+            [[resources.Gold, Constants.BUILD_EFFECT_MINE_GOLD_BASE]],
+            [[resources.Gold, Constants.BUILD_CREATE_MINE_GOLD_BASE, Constants.BUILD_CREATE_MINE_GOLD_MULTIPLIER]],
+            function () { for (var increment = 0; increment < this.quantity; increment++) if (GetRndInteger(1, 100) <= 5) { resources.Diamond.add = 1; AddLogMessage("You found a diamond in a mine!"); } })
+    };
+}
 
-const gameState = {
-    newGame: false,
-    unlockLumberyard: false,
-    unlockTechnology: false,
-    unlockCraftSkeleton: false,
-    unlockAssignWorkers: false,
-    unlockManaBar: false, //might be redudnant with the one above
-    assignWorkerNumber: 5,
-    buildingsToBuyNumber: 1,
-    marketMultiplier: Constants.MARKET_BASE_MULTIPLIER
-};
+function GetDefaultGameState() {
+    return {
+        newGame: false,
+        unlockLumberyard: false,
+        unlockTechnology: false,
+        unlockCraftSkeleton: false,
+        unlockAssignWorkers: false,
+        unlockManaBar: false, //might be redudnant with the one above
+        assignWorkerNumber: 5,
+        buildingsToBuyNumber: 1,
+        marketMultiplier: Constants.MARKET_BASE_MULTIPLIER
+    };
+}
 
-const gameStats = {
-    "Total Resource Clicks": 0
-};
+function GetDefaultGameStats() {
+    return {
+        "Total Resource Clicks": 0
+    };
+}
 
-const achievements = {
-    "First Worker": false,
-    "Charity": false
-};
+function GetDefaultAchievements() {
+    return {
+        "First Worker": false,
+        "Charity": false
+    };
+}
 
-const messageLog = ["You find yourself in a graveyard."];
+function GetDefaultMessageLog() {
+    return ["You find yourself in a graveyard."];
+}
 
 export function RoundToX(num, X) {
     return +(Math.round(num + "e+" + X) + "e-" + X);
@@ -110,9 +123,37 @@ export function AddLogMessage(message) {
     if (messageLog.length > 10) messageLog.pop();
 }
 
-function getRndInteger(min, max) {
+function GetRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export function GetGameObject() {
+    var game = {
+        resources: resources,
+        buildings: buildings,
+        gameState: gameState,
+        gameStats: gameStats,
+        achievements: achievements,
+        messageLog: messageLog
+    };
+    return game;
+}
+
+export function ResetGameState() {
+    resources = GetDefaultResources();
+    buildings = GetDefaultBuildings();
+    gameState = GetDefaultGameState();
+    gameStats = GetDefaultGameStats();
+    achievements = GetDefaultAchievements();
+    messageLog = GetDefaultMessageLog();
+}
+
+var resources = GetDefaultResources();
+var buildings = GetDefaultBuildings();
+var gameState = GetDefaultGameState();
+var gameStats = GetDefaultGameStats();
+var achievements = GetDefaultAchievements();
+var messageLog = GetDefaultMessageLog();
 
 function gameLoop() {
 
@@ -132,7 +173,6 @@ function gameLoop() {
         buildings.Lumberyard.quantity = 1;
     }
 
-
     //building calcs
     for (const [buildingKey, buildingObject] of Object.entries(buildings)) {
         buildingObject.Tick(resources["Worker Power"].amount);
@@ -146,7 +186,7 @@ class Game extends Component {
             time: Date.now(),
             key: 1
         };
-        console.log("[HI THERE]");
+        console.log("[HI THERE LICH PERSON]");
     }
 
     componentDidMount() {
@@ -156,7 +196,7 @@ class Game extends Component {
                 resources: resources,
                 buildings: buildings,
                 gameState: gameState,
-                achievements: achievements,
+                achievements: achievements
             });
             gameLoop();
         }, 20);
@@ -170,6 +210,7 @@ class Game extends Component {
                             <TabList>
                                 <Tab>Main</Tab>
                                 <Tab>Market</Tab>
+                                <Tab>Settings</Tab>
                             </TabList>
                             <TabPanel>
                                 <Container fluid="true">
@@ -214,6 +255,9 @@ class Game extends Component {
                                         </Col>
                                     </Row>
                                 </Container>
+                            </TabPanel>
+                            <TabPanel>
+                                <Settings />
                             </TabPanel>
                         </Tabs>
                     </Col>

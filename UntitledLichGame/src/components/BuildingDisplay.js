@@ -23,7 +23,18 @@ function buildingExists(buildingObject) {
 }
 
 function incrementWorker(workersToAssign, buildingObject, workerObject, currentlyAssignedWorkerObject) {
-    if (workersAssignedWillNotExceedCurrentWorkers(currentlyAssignedWorkerObject.amount, workersToAssign, workerObject.amount)
+	console.log(workersToAssign);
+	if (workersToAssign == "Max") {
+		var newWorkersToAssign = workerObject.amount - currentlyAssignedWorkerObject.amount;
+		buildingObject.workersAssigned += newWorkersToAssign;
+		currentlyAssignedWorkerObject.add = newWorkersToAssign;
+	}
+	else if (isNaN(workersToAssign)) {//negative "Max"
+		var workersToUnassign = buildingObject.workersAssigned;
+		buildingObject.workersAssigned -= workersToUnassign;
+		currentlyAssignedWorkerObject.remove = workersToUnassign;
+	}
+    else if (workersAssignedWillNotExceedCurrentWorkers(currentlyAssignedWorkerObject.amount, workersToAssign, workerObject.amount)
         && workersAssignedWillNotBeNegative(buildingObject.workersAssigned, workersToAssign)
         && buildingExists(buildingObject)) {
         buildingObject.workersAssigned += workersToAssign;
@@ -50,7 +61,7 @@ export default function BuildingDisplay({ building, buildingName, resources, gam
     var decrementWorkerButton = <Button onClick={() => incrementWorker(-gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>-{gameState.assignWorkerNumber}</Button>;
     if (building.workersAssigned === 0 || !buildingExists(building))
         decrementWorkerButton = <Button disabled onClick={() => incrementWorker(-gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>-{gameState.assignWorkerNumber}</Button>;
-    var incrementWorkerButton = <Button onClick={() => incrementWorker(+gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>+{gameState.assignWorkerNumber}</Button>;
+    var incrementWorkerButton = <Button onClick={() => incrementWorker(gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>+{gameState.assignWorkerNumber}</Button>;
     if (maximumNumberOfWorkersCurrentlyAssigned(resources.Worker.amount, resources["Currently Assigned Workers"].amount) || !buildingExists(building))
         incrementWorkerButton = <Button disabled onClick={() => incrementWorker(+gameState.assignWorkerNumber, building, resources.Worker, resources["Currently Assigned Workers"])}>+{gameState.assignWorkerNumber}</Button>;
 

@@ -16,3 +16,15 @@
 .market-heading {
 	text-align: center;
 }
+
+#toggle-assign-worker {
+	float: right;
+}
+
+.inline-test {
+	margin-bottom: 8px;
+}
+
+.inline-test h1{
+	display: inline;
+}

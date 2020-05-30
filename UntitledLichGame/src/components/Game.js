@@ -27,7 +27,7 @@ function GetDefaultResources() {
         "Bone": new Resource(10, "Bone", false, true, "assets/bone.png"),
         "Coal": new Resource(0, "Coal", true, true, "assets/coal.png"),
         "Crystal": new Resource(0, "Crystal", false, true, "assets/crystal.png"),
-        "Diamond": new Resource(0, "Diamond", true),
+        "Diamond": new Resource(0, "Diamond", true, true, "assets/diamond.png"),
         "Fire": new Resource(0, "Fire", false, true, "assets/fire.png"),
         "Gold": new Resource(0, "Gold", false, true, "assets/gold.png"),
         "Heart": new Resource(0, "Heart", false, true, "assets/heart.png"),

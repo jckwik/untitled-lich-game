@@ -2,7 +2,7 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
-import { Save, Load, Export } from './SaveFunctions';
+import { Save, Load, Export, ResetGameCompletely } from './SaveFunctions';
 
 export default function Settings(props) {
 

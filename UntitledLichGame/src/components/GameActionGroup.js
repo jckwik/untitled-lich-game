@@ -30,8 +30,15 @@ function skeletonCraftActionButton(resources) {
     var button;
 
     var priceBone = GetPrice(Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_BASE, Constants.CRAFT_BONE_TO_WORKER_INPUT_BONE_MULTIPLIER, resources["Worker"].amount);
+    var priceBoneToString = `Bone: ${priceBone}`; 
 
     var canCraftWorker = (resources["Bone"].amount >= priceBone) && (resources.Worker.amount < resources.Mana.amount);
+
+    var tooltip = <Tooltip id="bone-to-worker">Bone: {priceBone}</Tooltip>;
+    if (resources.Worker.amount === resources.Mana.amount) {
+        tooltip = <Tooltip id="bone-to-worker">Requires more mana!</Tooltip>;
+        priceBoneToString = "Out of Mana!";
+    }
 
     //disable button if not enough resources
     if (canCraftWorker) {
@@ -39,7 +46,7 @@ function skeletonCraftActionButton(resources) {
             <Button key="unlockSkeleton"
                 onClick={() => { actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources); GrantAchievement("First Worker"); }}
             >
-                Build Skeleton
+                Build Skeleton: {priceBoneToString}
             </Button>
         );
     }
@@ -49,14 +56,10 @@ function skeletonCraftActionButton(resources) {
                 disabled
                 onClick={() => { actionCreateResource([new Resource(priceBone, "Bone")], [new Resource(1, "Worker")], resources); GrantAchievement("First Worker"); }}
             >
-                Build Skeleton
+                Build Skeleton: {priceBoneToString}
             </Button>
         );
     }
-
-    var tooltip = <Tooltip id="bone-to-worker">Bone: {priceBone}</Tooltip>;
-    if (resources.Worker.amount === resources.Mana.amount)
-        tooltip = <Tooltip id="bone-to-worker">Requires more mana!</Tooltip>;
 
     output = (
         <OverlayTrigger

@@ -10,7 +10,7 @@ import Building from './Building';
 import Market from './Market';
 import Settings from './Settings';
 import * as Constants from '../constants/Constants';
-import {Save} from './SaveFunctions';
+import { Save, Load } from './SaveFunctions';
 
 import { setInterval } from 'timers';
 import Container from 'react-bootstrap/Container';
@@ -194,6 +194,7 @@ class Game extends Component {
             key: 1
         };
         console.log("[HI THERE LICH PERSON?]");
+        Load();
     }
 
     componentDidMount() {

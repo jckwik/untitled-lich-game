@@ -9,33 +9,42 @@ export function Save() {
 export function Load() {
     var saveState = JSON.parse(localStorage.getItem("untitledLichSave"));
 
+    if (saveState === null) return;
+
+    console.log("Loading game state!");
+
     ResetGameState();
 
     var gameObject = GetGameObject();
 
     for (const [resourceKey, resourceObject] of Object.entries(saveState.resources)) {
-        console.log(resourceObject);
-        gameObject.resources[resourceObject.name].quantity = resourceObject.quantity;
+        if (typeof gameObject.resources[resourceObject.name] !== "undefined")
+            gameObject.resources[resourceObject.name].quantity = resourceObject.quantity;
     }
 
     for (const [buildingKey, BuildingObject] of Object.entries(saveState.buildings)) {
-        gameObject.buildings[BuildingObject.name].quantity = BuildingObject.quantity;
-        gameObject.buildings[BuildingObject.name].workersAssigned = BuildingObject.workersAssigned;
-        gameObject.buildings[BuildingObject.name].currentPower = BuildingObject.currentPower;
-        gameObject.buildings[BuildingObject.name].effectMultiplier = BuildingObject.effectMultiplier;
-        gameObject.buildings[BuildingObject.name].UpdatePrice();
+        if (typeof gameObject.resources[BuildingObject.name] !== "undefined") {
+            gameObject.buildings[BuildingObject.name].quantity = BuildingObject.quantity;
+            gameObject.buildings[BuildingObject.name].workersAssigned = BuildingObject.workersAssigned;
+            gameObject.buildings[BuildingObject.name].currentPower = BuildingObject.currentPower;
+            gameObject.buildings[BuildingObject.name].effectMultiplier = BuildingObject.effectMultiplier;
+            gameObject.buildings[BuildingObject.name].UpdatePrice();
+        }
     }
 
     for (const [gameStateKey, gameStateObject] of Object.entries(saveState.gameState)) {
-        gameObject.gameState[gameStateKey] = gameStateObject;
+        if (typeof gameObject.gameState[gameStateKey] !== "undefined")
+            gameObject.gameState[gameStateKey] = gameStateObject;
     }
 
     for (const [gameStatsKey, gameStatsObject] of Object.entries(saveState.gameStats)) {
-        gameObject.gameStats[gameStatsKey] = gameStatsObject;
+        if (typeof gameObject.gameStats[gameStatsKey] !== "undefined")
+            gameObject.gameStats[gameStatsKey] = gameStatsObject;
     }
 
     for (const [achievementsKey, achievementsObject] of Object.entries(saveState.achievements)) {
-        gameObject.achievements[achievementsKey] = achievementsObject;
+        if (typeof gameObject.achievements[achievementsKey] !== "undefined")
+            gameObject.achievements[achievementsKey] = achievementsObject;
     }
     gameObject.messageLog = saveState.messageLog;
     AddLogMessage("Game Loaded");
@@ -52,8 +61,11 @@ export function Export() {
 }
 
 export function ResetGameCompletely() {
-    localStorage.removeItem("untitledLichSave");
-    ResetGameState();
+
+    if (confirm("This will completely reset your game. This is non-recoverable. Are you sure you want to continue?")) {
+        localStorage.removeItem("untitledLichSave");
+        ResetGameState();
+    }
 }
 
 //function Import() {

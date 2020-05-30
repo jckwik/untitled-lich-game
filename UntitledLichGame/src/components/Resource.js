@@ -7,6 +7,7 @@
         this.imageFile = pathToImage;
         this.inMarket = isMarketable;
         this.boughtInMarket = 0;
+        this.mustDisplay = false;
     }
     UpdateTotalCreated(newTotal) {
         this.totalCreated = newTotal;

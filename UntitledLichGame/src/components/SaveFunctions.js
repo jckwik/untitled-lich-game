@@ -20,6 +20,7 @@ export function Load() {
     for (const [resourceKey, resourceObject] of Object.entries(saveState.resources)) {
         if (typeof gameObject.resources[resourceObject.name] !== "undefined")
             gameObject.resources[resourceObject.name].quantity = resourceObject.quantity;
+            gameObject.resources[resourceObject.name].mustDisplay = resourceObject.mustDisplay;
     }
 
     for (const [buildingKey, BuildingObject] of Object.entries(saveState.buildings)) {

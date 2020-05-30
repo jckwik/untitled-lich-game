@@ -8,7 +8,7 @@ export default function ResourceDisplayGroup({ resources, buildings, gameState, 
     var output = [];
     if (gameState.newGame === false) output.push(<ManaDisplay key="Manabar" resources={resources} />);
     for (const [resourceKey, resource] of Object.entries(resources)) {
-        if (resource.amount > 0 && resource.shouldDisplay) {
+        if ((resource.amount > 0 && resource.shouldDisplay) || resource.mustDisplay) {
             output.push(<ResourceDisplay key={resourceKey} resource={resourceKey} quantity={resource.amount} image={resource.imageFile} />);
         }
     }

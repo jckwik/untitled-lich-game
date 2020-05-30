@@ -7,6 +7,7 @@ import TechnologyActionGroup from './TechnologyActionGroup';
 import MessageLogDisplay from './MessageLogDisplay';
 import Resource from './Resource';
 import Building from './Building';
+import Technology from './Technology';
 import Market from './Market';
 import Settings from './Settings';
 import * as Constants from '../constants/Constants';
@@ -78,7 +79,8 @@ function GetDefaultGameState() {
         assignWorkerNumber: 5,
         buildingsToBuyNumber: 1,
         marketMultiplier: Constants.MARKET_BASE_MULTIPLIER,
-        lastSaveTime: Date.now()
+        lastSaveTime: Date.now(),
+        prestigeMultiplier: 1.00
     };
 }
 
@@ -97,6 +99,15 @@ function GetDefaultAchievements() {
 
 function GetDefaultMessageLog() {
     return ["You find yourself in a graveyard."];
+}
+
+function GetDefaultTechnologyTree() {
+    return {
+        "Deep Stone": new Technology("Deep Stone",
+            function () { Buildings.Graveyard.effectMultiplier = Buildings.Graveyard.effectMultiplier * 2; },
+            [[resources.Diamond, 10]],
+            "Harness the power of diamonds to find additional stone")
+    }
 }
 
 export function RoundToX(num, X) {
@@ -136,7 +147,8 @@ export function GetGameObject() {
         gameState: gameState,
         gameStats: gameStats,
         achievements: achievements,
-        messageLog: messageLog
+        messageLog: messageLog,
+        technology: technology
     };
     return game;
 }
@@ -148,6 +160,7 @@ export function ResetGameState() {
     gameStats = GetDefaultGameStats();
     achievements = GetDefaultAchievements();
     messageLog = GetDefaultMessageLog();
+    technology = GetDefaultTechnologyTree();
 }
 
 var resources = GetDefaultResources();
@@ -156,6 +169,7 @@ var gameState = GetDefaultGameState();
 var gameStats = GetDefaultGameStats();
 var achievements = GetDefaultAchievements();
 var messageLog = GetDefaultMessageLog();
+var technology = GetDefaultTechnologyTree();
 
 function gameLoop() {
 
@@ -180,9 +194,9 @@ function gameLoop() {
         buildingObject.Tick(resources["Worker Power"].amount);
     }
 
-    if (gameState.lastSaveTime+60000 < Date.now()) {
+    if (gameState.lastSaveTime + 60000 < Date.now()) {
         gameState.lastSaveTime = Date.now();
-        Save(); 
+        Save();
     }
 }
 

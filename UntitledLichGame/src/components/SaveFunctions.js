@@ -23,8 +23,6 @@ export function Load() {
             gameObject.resources[resourceObject.name].mustDisplay = resourceObject.mustDisplay;
     }
 
-    console.log(saveState.buildings);
-
     for (const [buildingKey, BuildingObject] of Object.entries(saveState.buildings)) {
         if (typeof gameObject.buildings[BuildingObject.name] !== "undefined") {
             gameObject.buildings[BuildingObject.name].quantity = BuildingObject.quantity;
@@ -50,6 +48,16 @@ export function Load() {
             gameObject.achievements[achievementsKey] = achievementsObject;
     }
     gameObject.messageLog = saveState.messageLog;
+
+    for (const [technologyKey, TechnologyObject] of Object.entries(saveState.technology)) {
+        if (typeof gameObject.technology[TechnologyObject.name] !== "undefined") {
+            gameObject.technology[TechnologyObject.name].researched = TechnologyObject.researched;
+            gameObject.technology[TechnologyObject.name].shouldDisplay = TechnologyObject.shouldDisplay;
+            if (!TechnologyObject.researched) 
+                gameObject.technology[TechnologyObject.name].CheckIfCanResearch();
+        }
+    }
+
     AddLogMessage("Game Loaded");
 }
 

@@ -28,6 +28,7 @@ export const BUILD_WORK_REQ_MINE_BASE = 10000;
 
 //default states
 export const DEFAULT_WORKER_POWER = 1;
+export const DEFAULT_MANA_AMOUNT = 100;
 
 //display constants
 export const DISPLAY_PROGRESS_BAR_SWAP = 0.20; //working %/tick to swap from filling bar to solid animating bar

@@ -23,8 +23,10 @@ export function Load() {
             gameObject.resources[resourceObject.name].mustDisplay = resourceObject.mustDisplay;
     }
 
+    console.log(saveState.buildings);
+
     for (const [buildingKey, BuildingObject] of Object.entries(saveState.buildings)) {
-        if (typeof gameObject.resources[BuildingObject.name] !== "undefined") {
+        if (typeof gameObject.buildings[BuildingObject.name] !== "undefined") {
             gameObject.buildings[BuildingObject.name].quantity = BuildingObject.quantity;
             gameObject.buildings[BuildingObject.name].workersAssigned = BuildingObject.workersAssigned;
             gameObject.buildings[BuildingObject.name].currentPower = BuildingObject.currentPower;

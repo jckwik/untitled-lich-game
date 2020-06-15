@@ -132,7 +132,8 @@ export function GrantAchievement(achievement) {
 }
 
 export function AddLogMessage(message) {
-    messageLog.unshift(message);
+	var timestamp = new Date();
+	messageLog.unshift(`(${timestamp.getHours()}:${timestamp.getMinutes()}) ${message}`);
     if (messageLog.length > 10) messageLog.pop();
 }
 

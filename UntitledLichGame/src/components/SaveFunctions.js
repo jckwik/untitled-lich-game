@@ -2,8 +2,8 @@
 
 export function Save() {
     var saveState = GetGameObject();
-    localStorage.setItem("untitledLichSave", JSON.stringify(saveState));
-    AddLogMessage("Game Saved!");
+	localStorage.setItem("untitledLichSave", JSON.stringify(saveState));
+	AddLogMessage("Game Saved!");
 }
 
 export function Load() {
